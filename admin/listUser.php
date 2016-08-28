@@ -8,6 +8,7 @@ if(!$rows){
 	Common::alertMes("sorry,没有用户,请添加!","addUser.php");
 }
 //再次测试
+//hahahha
 ?>
 <!doctype html>
 <html>
