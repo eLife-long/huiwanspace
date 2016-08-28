@@ -1,0 +1,295 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	background-color:#00AF42;
+	margin:0;padding:0;}
+#top_mod{
+	display:block;
+	height:66px;
+	width:900px;
+	margin:30px auto 0 auto;
+	background-color:#00AF42;
+	color:#FFF;
+	font-family:'Microsoft Yahei';
+	font-size:36px;
+	line-height:50px;
+	padding-top:20px;
+	padding-left:80px;}
+#main_mod{
+	display:block;
+	position:relative;
+	height:880px;
+	width:900px;
+	margin:auto;
+	background-color:#FFF;}
+#error_information{
+	font-size:14px;
+	display:block;
+	height:20px;
+	width:706px;
+	margin-left:194px;}
+#error_information_display{
+	color:#FFF;
+	background-color:#F60;
+	display:none;}
+#background{
+	display:inline-block;
+	width:194px;
+	height:880px;
+	position:absolute;
+	top:0;
+	left:0;
+	background:rgba(0,175,66,0.7);}
+#right_main_photo{
+	display:block;
+	height:233px;
+	width:450;
+	margin:15px auto 35px 330px;}
+#green_vertical{
+	display:inline-block;
+	height:34px;
+	width:5px;
+	position:absolute;
+	left:262px;
+	top:300px;
+	background-color:#00AF42;}
+#green_line{
+	display:inline-block;
+	height:1px;
+	width:576px;
+	position:absolute;
+	left:262px;
+	top:334px;
+	background-color:#00AF42;}
+h2{
+	display:inline-block;
+	position:absolute;
+	left:280px;
+	top:280px;
+	font-style:normal;
+	font-family:'Microsoft Yahei';
+	color:#00AF42;}
+#phone_selected{
+	display:inline-block;
+	position:absolute;
+	top:55px;
+	left:52px;
+	width:170px;
+	height:38px;
+	color:#FFF;
+	font-weight:normal;
+	font-family:'Microsoft Yahei';
+	font-size:20px;
+	text-align:center;
+	padding-top:12px;
+	background:rgba(0,175,66,1);
+	cursor:pointer;}
+#email_selected{
+	display:inline-block;
+	position:absolute;
+	top:113px;
+	left:22px;
+	width:170px;
+	height:38px;
+	color:#FFF;
+	font-weight:normal;
+	font-family:'Microsoft Yahei';
+	font-size:20px;
+	text-align:center;
+	padding-top:12px;
+	background:rgba(0,175,66,0.3);
+	cursor:pointer;}
+
+#phone_register_form{
+	display:block;
+	position:absolute;
+	top:380px;
+	left:260px;
+	text-align:left;}
+#phone_signup{
+	display:block;}
+#phone{
+	display:inline-block
+	color:#000;
+	font-family:'Microsoft Yahei';
+	font-size:17px;}
+#error_phone{
+	color:#F00;
+	text-align:center;
+	font-size:13px;
+	height:16px;}
+#tip_phone{
+	color:#858585;
+	font-size:13px;
+	display:block;
+	position:absolute;
+	top:390px;
+	right:116px;}
+#phone_verify{
+	color:#000;
+	font-family:'Microsoft Yahei';
+	font-size:17px;
+	width:100px;}
+#get_phone_verify{
+	display:inline-block;
+	position:absolute;
+	width:140px;
+	height:22px;
+	top:92px;
+	right:-88px;
+	background:rgba(0,175,66,0.5);
+	padding-top:6px;
+	padding-bottom:6px;
+	color:#FFF;
+	font-family:'Microsoft Yahei';
+	font-size:16px;
+	text-align:center;
+	cursor:pointer;}
+#phone_password{
+	color:#000;
+	font-family:'Microsoft Yahei';
+	font-size:17px;}
+#phone_error_password{
+	color:#F00;
+	text-align:center;
+	font-size:13px;
+	height:16px;}
+#phone_tip_password{
+	color:#858585;
+	font-size:13px;
+	display:block;
+	position:absolute;
+	top:551px;
+	right:118px;}
+#phone_password_again{
+	color:#000;
+	font-family:'Microsoft Yahei';
+	font-size:17px;}
+#phone_error_password_again{
+	color:#F00;
+	text-align:center;
+	font-size:13px;
+	height:16px;}
+#phone_tip_password_again{
+	color:#858585;
+	font-size:13px;
+	display:block;
+	position:absolute;
+	top:631px;
+	right:205px;}
+.agree{
+	font-family:'Microsoft Yahei';
+	font-size:13px;
+	display:inline-block;
+	position:absolute;
+	top:705px;
+	left:435px;}
+#phone_register_now{
+	display:block;
+	width:240px;
+	height:50px;
+	color:#FFF;
+	font-size:26px;
+	font-family:'Microsoft Yahei';
+	background-color:#00AF42;
+	cursor:pointer;
+	position:absolute;
+	top:380px;
+	left:200px;}
+
+
+#register_form{
+	display:block;
+	position:absolute;
+	top:380px;
+	left:260px;
+	text-align:left;}	
+#email_signup{
+	display:none;}
+#email{
+	display:inline-block
+	color:#000;
+	font-family:'Microsoft Yahei';
+	font-size:17px;}
+#error_email{
+	color:#F00;
+	text-align:center;
+	font-size:13px;
+	height:16px;}
+#tip_email{
+	color:#858585;
+	font-size:13px;
+	display:block;
+	position:absolute;
+	top:390px;
+	right:116px;}
+#phone_password{
+	color:#000;
+	font-family:'Microsoft Yahei';
+	font-size:17px;}
+#email_password{
+	color:#000;
+	font-family:'Microsoft Yahei';
+	font-size:17px;}
+#error_password{
+	color:#F00;
+	text-align:center;
+	font-size:13px;
+	height:16px;}
+#tip_password{
+	color:#858585;
+	font-size:13px;
+	display:block;
+	position:absolute;
+	top:470px;
+	right:118px;}
+#phone_password_again{
+	color:#000;
+	font-family:'Microsoft Yahei';
+	font-size:17px;}
+#email_password_again{
+	color:#000;
+	font-family:'Microsoft Yahei';
+	font-size:17px;}
+#error_password_again{
+	color:#F00;
+	text-align:center;
+	font-size:13px;
+	height:16px;}
+#tip_password_again{
+	color:#858585;
+	font-size:13px;
+	display:block;
+	position:absolute;
+	top:547px;
+	right:205px;}
+#verify{
+	color:#000;
+	font-family:'Microsoft Yahei';
+	font-size:17px;
+	width:80px;}
+#change_verify{
+	display:inline-block;
+	position:absolute;
+	top:283px;
+	right:10px;
+	font-size:13px;}
+#register_now{
+	display:block;
+	width:240px;
+	height:50px;
+	color:#FFF;
+	font-size:26px;
+	font-family:'Microsoft Yahei';
+	background-color:#00AF42;
+	cursor:pointer;
+	position:absolute;
+	top:380px;
+	left:200px;}
+#foot_mod{
+	width:1100px;
+	margin:35px auto 35px auto;
+	color:#FFF;
+	text-align:center;
+	font-size:12px;
+	font-family:'Microsoft Yahei';}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href='css/signup_css/signup.css' rel="stylesheet" type="text/css">
+<link href="css/iconfont.css" rel="stylesheet" type="text/css">
+<script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"  type="text/javascript"></script>
+<script src="js/signup_js/jquery.validate.js"  type="text/javascript"></script>
+<script src="js/signup_js/signup.js"  type="text/javascript"></script>
+<title>eLife注册</title>
+</head>
+
+<body>
+<div id='top_mod'>用户注册</div>
+<div id='main_mod'>
+    <div id='background'></div>
+    <div id='error_information'>
+    <div id='error_information_display'>
+    	&nbsp;<i class="iconfont">&#xe621;</i>
+        <span id='error_information_text'></span>
+    </div>
+    </div>
+    <img src="img/signup_img/11278954-500.jpg" id='right_main_photo'/>
+    <div id='green_vertical'></div>
+    <div id='green_line'></div>
+    <h2>注册账号</h2>
+    <h3 id='phone_selected'>手机号码注册&nbsp;<i class="iconfont" style="font-size:22px;">&#xe628;</i></h3>
+    <h3 id='email_selected'>邮箱注册&nbsp;<i class="iconfont" style="font-size:22px;">&#xe629;</i></h3>
+    <div id='phone_signup'>
+    <p id='tip_phone'>请输入注册使用的有效手机号码</p>
+    <p id='phone_tip_password'>请输入6-16位密码,不支持空格</p>
+    <p id='phone_tip_password_again'>请再次输入密码</p>
+    <form id='phone_register_form'>
+    <p id='phone_p'>
+    	<label for='phone' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;手机号码:</label>
+        <input type='text' id='phone' name='phone' autocomplete="off"/>
+        <p id='error_phone'></p>
+    </p>
+    <p id="phone_verify_p">
+        <label for='phone_verify' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 验证码:</label>           
+        <input type='text' id='phone_verify' name='phone_verify' autocomplete="off"/>
+        <div id='get_phone_verify'>获取短信验证码</div>
+    </p><br/>
+    <p id='password_p'>
+        <label for='phone_password' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;设置密码:</label>
+        <input type='password' id='phone_password' name='phone_password' autocomplete="off"/><br/>
+        <p id='phone_error_password'>&nbsp;</p>
+    </p>
+    <p id='password_again_p'>
+        <label for='password_again' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;确认密码:</label>
+        <input type='password' id='phone_password_again' name='phone_password_again' autocomplete="off"/><br/>
+        <p id='phone_error_password_again'>&nbsp;</p>
+    </p>
+    <input type='button' id='phone_register_now' value='立即注册'/>
+    </form>
+    <label class='agree'><input type="checkbox" name='phone_i_agree' id='phone_i_agree' value="ture" checked="checked"/>我已阅读并同意<a href="javascript:;">《相关服务条款和隐私政策》</a></label>
+    </div>
+    <div id='email_signup'>
+    <p id='tip_email'>请输入注册使用的有效邮箱地址</p>
+    <p id='tip_password'>请输入6-16位密码,不支持空格</p>
+    <p id='tip_password_again'>请再次输入密码</p>
+    <form id='register_form'>
+    <p id='email_p'>
+    	<label for='email' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮箱地址:</label>
+        <input type='text' id='email' name='email' autocomplete="off"/>
+        <p id='error_email'>&nbsp;</p>
+    </p>
+    <p id='password_p'>
+        <label for='password' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;设置密码:</label>
+        <input type='password' id='email_password' name='email_password' autocomplete="off"/><br/>
+        <p id='error_password'>&nbsp;</p>
+    </p>
+    <p id='password_again_p'>
+        <label for='email_password_again' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;确认密码:</label>
+        <input type='password' id='email_password_again' name='email_password_again' autocomplete="off"/><br/>
+        <p id='error_password_again'>&nbsp;</p>
+    </p>
+    <p id="verify_p">
+        <label for='verify' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;验证码:</label>           
+        <input type='text' id='verify' name='verify' autocomplete="off"/>
+        <img src="http://49.140.166.99:8080/eLife/api/server.php?action=getVerify" id='verify_img' width="80px" height="28px"/>
+    </p><br/>
+    <a href="javascript:;" id="change_verify">看不清,换一张</a>
+    <input type='button' id='register_now' value='立即注册'/>
+    </form>
+    <label class='agree'><input type="checkbox" name='i_agree' id='i_agree' value="ture" checked="checked"/>我已阅读并同意<a href="javascript:;">《相关服务条款和隐私政策》</a></label>
+    </div>
+</div>
+<div id='foot_mod'>© copyright information</div>
+</body>
+</html>

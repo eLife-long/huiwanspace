@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/campus_activitypage_css/campus_activitypage.css" rel="stylesheet" type="text/css" />
+<link href="css/iconfont.css" rel="stylesheet" type="text/css" />
+<script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"  type="text/javascript"></script>
+<script src="js/campus_activitypage_js/jquery.validate.js"  type="text/javascript"></script>
+<script src="js/campus_activitypage_js/campus_activitypage.js" ></script> 
+<title>吉林大学</title>
+</head>
+
+<body>
+<div id='login_dialogfloor'>
+	<div id='login_dialog'>
+    	<div id='login_top'>        
+    		<div id='login_title'>账号登录</div>
+            <div id='login_close'><a href="#" id='buttonout'>&nbsp;× </a></div>    		
+        </div>
+        <div id='login_main'>
+         <form id='login_form'>
+           <p>
+        	<label for='username' style="line-height:25px;font-weight:560;">账&nbsp;&nbsp;号:</label>
+            <input type="text" id='username' name='username' autocomplete="off"/>
+           </p>
+           <span id='error_username'>&nbsp;</span>
+           <p>
+            <label for='password' style="line-height:25px; font-weight:560;">密&nbsp;&nbsp;码:</label>
+            <input type='text' id='password' name='password' autocomplete="off"/>
+           </p>
+           <span id='error_password'>&nbsp;</span>
+           <p>
+           	<label for='verify' style="line-height:25px; font-weight:560;">验证码:</label>           
+            <input type='text' id='verify' name='verify' autocomplete="off"/>
+            <img src="#" id='verify_img' width="80px" height="28px"/>
+           </p>
+           <a href="javascript:;" id="change_img">看不清，换一张</a>
+           <a href="security_page.html" target="_blank" id="find_password">找回密码</a>
+           <a href="signup.html" target="_blank" id="register_now">没有账号?立即注册!</a>
+           <span id="error_information">&nbsp;</span>
+           <p>
+            <div id='login_button'>登&nbsp;&nbsp;录</div>
+           </p>
+         </form>
+        </div>
+    </div>
+</div>
+<a href="javascript:scroll(0,0)" id="back_to_top" title="返回顶部"><i class='iconfont' style="font-size:35px;">&#xe627;</i></a>
+	<div id="top_mod">
+    	<div id="top_list">
+        <div id="top_list_time">shijianxianshi</div>
+        <div id="top_list_back_main"><a href="index.html" class="top">返回首页</a></div>
+    	<div id="top_list_login"><a href="javascript:;" class="top" id='buttonin'>[登录]</a></div>
+    	<div id="top_list_signup"><a href="signup.html" target="_blank" class="top">[注册]</a></div>
+        </div>
+    </div>
+   
+    <div id='main_mod'>
+    <div style="display:inline-block"><img src="img/campus_activitypage_img/eps18945.png" /></div>
+    <div style="height:2px; text-align:center">
+    	<h2 id='campus_name'>吉林大学</h2>
+    	<div id='campus_photo'><img src="img/campus_activitypage_img/2a.jpg" id='campus_photo_content' /></div>
+    </div>
+        <div id='main_left'>
+        	<div class='position_list' id='0'><div class='stand'></div><i class='iconfont' >&#xe62a;</i></div>
+            <div class='position_list_list' id='nanhu_list'></div>
+            <div class='position_list' id='1'><div class='stand'></div><i class='iconfont' >&#xe62a;</i></div>
+            <div class='position_list_list' id='nanqu_list'></div>
+            <div class='position_list' id='2'><div class='stand'></div><i class='iconfont' >&#xe62a;</i></div>
+            <div class='position_list_list' id='nanling_list'></div>
+            <div class='position_list' id='3'><div class='stand'></div><i class='iconfont' >&#xe62a;</i></div>
+            <div class='position_list_list' id='xinmin_list'></div>
+            <div class='position_list' id='4'><div class='stand'></div><i class='iconfont' >&#xe62a;</i></div>
+            <div class='position_list_list' id='chaoyang_list'></div>
+            <div class='position_list' id='5'><div class='stand'></div><i class='iconfont' >&#xe62a;</i></div>
+            <div class='position_list_list' id='heping_list'></div>
+            <div class='position_list' id='6'><div class='stand'></div><i class='iconfont' >&#xe62a;</i></div>
+            <div class='position_list_list' id='zhuhai_list'></div>
+        </div>
+        <div id='main_middle'>
+        <div id='paixu'>
+        	<span id='hot'><i class='iconfont' style="font-size:14px;">&#xe602;</i>按热度排序</span>
+            <span id='time'><i class='iconfont' style="font-size:14px;">&#xe602;</i>按时间排序</span>
+            <span id='distance'><i class='iconfont' style="font-size:14px;">&#xe602;</i>按距离排序</span>
+        </div>
+        	<dl class='middle'>
+            </dl>
+        </div>
+        <div id='main_right'>
+        	<h3>快捷发布活动</h3>
+            <dl class='right'>
+            </dl>
+        </div>
+    </div>
+    <div id="foot_mod">
+    	<div id="copyright_information">© copyright information</div>
+    </div>
+    
+</body>
+</html>

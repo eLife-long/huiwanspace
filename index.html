@@ -1,0 +1,404 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/index_css/hostpage.css" rel="stylesheet" type="text/css" />
+<link href="css/iconfont.css" rel="stylesheet" type="text/css" />
+<script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"  type="text/javascript"></script>
+<script src="js/index_js/jquery.validate.js"  type="text/javascript"></script>
+<script src="js/index_js/hostpage.js" type="text/javascript"></script>
+<title>eLife主页</title>
+</head>
+
+<body>
+<div id='login_dialogfloor'>
+	<div id='login_dialog'>
+    	<div id='login_top'>        
+    		<div id='login_title'>账号登录</div>
+            <div id='login_close'><a href="#" id='buttonout'>&nbsp;× </a></div>    		
+        </div>
+        <div id='login_main'>
+         <form id='login_form'>
+           <p>
+        	<label for='username' style="line-height:25px;font-weight:560;">账&nbsp;&nbsp;号:</label>
+            <input type="text" id='username' name='username' autocomplete="off"/>
+           </p>
+           <span id='error_username'>&nbsp;</span>
+           <p>
+            <label for='password' style="line-height:25px; font-weight:560;">密&nbsp;&nbsp;码:</label>
+            <input type='text' id='password' name='password' autocomplete="off"/>
+           </p>
+           <span id='error_password'>&nbsp;</span>
+           <p>
+           	<label for='verify' style="line-height:25px; font-weight:560;">验证码:</label>           
+            <input type='text' id='verify' name='verify' autocomplete="off"/>
+            <img src="#" id='verify_img' width="80px" height="28px"/>
+           </p>
+           <a href="javascript:;" id="change_img">看不清，换一张</a>
+           <a href="security_page.html" target="_blank" id="find_password">找回密码</a>
+           <a href="signup.html" target="_blank" id="register_now">没有账号?立即注册!</a>
+           <span id="error_information">&nbsp;</span>
+           <p>
+            <div id='login_button'>登&nbsp;&nbsp;录</div>
+           </p>
+         </form>
+        </div>
+    </div>
+</div>
+<div id='publishfast_dialogfloor'>
+	<div id='publishfast_dialog'>
+    	<div id='publishfast_dialog_top'>快捷发布活动</div>
+        <div id='publishfast_close'><i class='iconfont' style="font-size:22px;">&#xe618;</i></div>
+        <form id='publishfast_dialog_form'>
+        <p>
+        <label for='publishfast_dialog_campus' style="color:#000;font-size:16px;font-family:'Microsoft Yahei';line-height:30px;">请选择校区:</label>
+        <select id='publishfast_dialog_campus' name="campus">
+		</select>
+        <label for='publishfast_dialog_activity' style="color:#000;font-size:16px;font-family:'Microsoft Yahei';line-height:30px;margin-left:40px;">请选择一项活动:</label>
+        <select id='publishfast_dialog_activity' name="activity">
+		</select>
+        </p>
+        <p>
+        <label for='publishfast_dialog_number' style="color:#333;font-size:14px;font-family:'Microsoft Yahei';line-height:30px;position:relative;top:10px;">活动限制人数:</label>
+        <select id='publishfast_dialog_number' name="activity">
+		<option value="4">4</option>
+		<option value="5">5</option>
+		<option value="6">6</option>
+		<option value="7">7</option>
+		<option value="8">8</option>
+		<option value="9">9</option>
+		<option value="10">10</option>
+		<option value="more">more</option>
+		</select>
+        <label for='publishfast_dialog_btime' style="color:#333;font-size:14px;font-family:'Microsoft Yahei';line-height:30px;
+	margin-left:40px;position:relative;top:10px;">报名起止时间:</label>
+        <select id='publishfast_dialog_btime' name="activity">
+		</select>
+        <label  style="color:#333;font-size:14px;font-family:'Microsoft Yahei';line-height:30px;position:relative;top:10px;">——</label>
+        <select id='publishfast_dialog_stime' name="activity">
+		</select>
+        </p>
+        <p>
+        <label for='publishfast_dialog_title' style="color:#000;font-size:16px;font-family:'Microsoft Yahei';line-height:30px;position:relative;top:20px;">自定义标题:</label>
+        <input type="text" id='publishfast_dialog_title'/>
+        </p>
+        <p>
+        <label for='publishfast_dialog_title' style="color:#000;font-size:16px;font-family:'Microsoft Yahei';line-height:30px;position:relative;top:20px;">&nbsp;&nbsp;&nbsp;活动描述:</label>
+        <textarea id='publishfast_dialog_description' cols="60" rows="4"></textarea>
+        </p>
+        </form>
+        <div id='publishfast_button'>确认发布</div>
+    </div>    
+</div>
+<div id='navigation'></div>
+<a href="javascript:scroll(0,0)" id="back_to_top" title="返回顶部"><i class='iconfont' style="font-size:35px;">&#xe627;</i></a>
+<div id='top_mod'>
+	<div id='top_list'>
+		<div id="top_list_time">shijianxianshi</div>
+    	<div id="top_list_login"><a href="javascript:;" class="top" id='buttonin'>[登录]</a></div>
+    	<div id="top_list_signup"><a href="signup.html" target="_blank" class="top">[注册]</a></div>
+	</div>
+    <div id='top_logo'>
+    	<div id='top_logo_photo'><img src="#" /></div>
+    </div>
+</div>
+<div id='main_mod'>
+	<div id='top_photo_dialog'>
+    	<div id='top_photo'>
+            <img src="css/index_css/img/eps18609 (10).jpg" id='photo'/>
+            <div id='top_photo_left'><a href="javascript:;" id='top_photo_left_text'> <i class='iconfont' style='font-size:40px;'>&#xe612;</i> </a></div>
+       		<div id='top_photo_right'><a href="javascript:;" id='top_photo_right_text'> <i class='iconfont' style='font-size:40px;'>&#xe60f;</i> </a></div>
+        </div>
+        <div id='top_photo_select'>
+        	<div id='top_text'><img src="css/index_css/img/logo(4).png" style="width:286px; height:42px;"/></div>
+        	<div id="top_photo_select_name"></div>
+        	<a href="javascript:;" class="top_photo_select_list">1</a>
+            <a href="javascript:;" class="top_photo_select_list">2</a>
+            <a href="javascript:;" class="top_photo_select_list">3</a>
+            <a href="javascript:;" class="top_photo_select_list">4</a>
+            <a href="javascript:;" class="top_photo_select_list">5</a>
+           	<!--- <a href="javascript:;" class="top_photo_select_list">6</a>------>
+        </div>
+    </div>
+    
+    <div id='campus_dialog'>
+    	<div id='auto_select_button'><a href="javascript:;" id='auto_select_button_text'><i class='iconfont' style="font-size:30px;color:#00AF42;">&#xe62c;</i>位置定位</a></div>
+    	<div id='city_select_button'><a href="javascript:;" id='city_select_button_text'>选择学校所在的省份</a></div>
+    	<div id='campus_select_button'><a href='javascript:;' id='campus_select_button_text'>选择你所在的学校</a></div>
+        <div id='city_selected'><i class='iconfont' style="font-size:26px;color:#00AF42;">&#xe62f;</i>&nbsp;<span>吉林</span></div>
+        <div id='school_selected'><i class='iconfont' style="font-size:30px;color:#00AF42; display:inline-block; position:relative; top:5px;">&#xe63a;</i>&nbsp;&nbsp;<span></span></div>
+        <div id='publishfast'><i class='iconfont' style="font-size:18px;color:#FFF;">&#xe616;</i>&nbsp;<span>快捷发布活动</span></div>
+        <img src="css/index_css/img/标签头.png" id='city_list_top'/><img src="css/index_css/img/标签头.png" id='campus_list_top'/>
+        <div id='city_list'></div>
+        <div id='campus_list'></div>
+    </div>
+    <div id='asd'>
+    	<div id='qwe'>
+        	<div id='qwe_top'>
+            	<div id='asd_ctrl'>收起<i class='iconfont' style="font-size:12px;">&#xe617;</i></div>
+                <div id='asd_edit'>Edit<i class='iconfont' style="font-size:12px;">&#xe613;</i></div>
+            	<div id='qwe_top_img_dialog'><img  src="css/index_css/img/eps6.jpg" id='qwe_top_img'/></div>
+                <div id='qwe_top_name_dialog'><div id='qwe_top_name'>隔壁老王</div></div>
+                <div id='qwe_top_attention_dialog'></div>
+                <div id='qwe_top_follower_dialog'></div>
+            </div>
+            <div id='qwe_foot'>
+            	<div id='qwe_foot_list_1' class='qwe_foot_list'>
+                	<div class='stand'></div>
+            		<div id='qwe_foot_list_1_text' class='qwe_foot_list_text'>我参加的</div>
+                    <div id='qwe_foot_list_1_img' class='qwe_foot_list_img'><i class='iconfont' >&#xe62a;</i></div>
+            	</div>
+            	<div id='qwe_foot_list_2' class='qwe_foot_list'>
+                	<div class='stand'></div>
+            		<div id='qwe_foot_list_2_text' class='qwe_foot_list_text'>我发布的</div>
+                    <div id='qwe_foot_list_2_img' class='qwe_foot_list_img'><i class='iconfont' >&#xe62a;</i></div>
+            	</div>
+            	<div id='qwe_foot_list_3' class='qwe_foot_list'>
+                	<div class='stand'></div>
+            		<div id='qwe_foot_list_3_text' class='qwe_foot_list_text'>我的收藏</div>
+                    <div id='qwe_foot_list_3_img' class='qwe_foot_list_img'><i class='iconfont' >&#xe62a;</i></div>
+            	</div>
+            	<div id='qwe_foot_list_4' class='qwe_foot_list'>
+                	<div class='stand'></div>
+            		<div id='qwe_foot_list_4_text' class='qwe_foot_list_text'>我的关注</div>
+                    <div id='qwe_foot_list_4_img' class='qwe_foot_list_img'><i class='iconfont' >&#xe62a;</i></div>
+            	</div>
+            	<div id='qwe_foot_list_5' class='qwe_foot_list'>
+                	<div class='stand'></div>
+            		<div id='qwe_foot_list_5_text' class='qwe_foot_list_text'>我的粉丝</div>
+                    <div id='qwe_foot_list_5_img' class='qwe_foot_list_img'><i class='iconfont' >&#xe62a;</i></div>
+            	</div>
+            	<div id='qwe_foot_list_6' class='qwe_foot_list'>
+                	<div class='stand'></div>
+            		<div id='qwe_foot_list_6_text' class='qwe_foot_list_text'>我的消息</div>
+                    <div id='qwe_foot_list_6_img' class='qwe_foot_list_img'><i class='iconfont' >&#xe62a;</i></div>
+            	</div>
+            </div>
+        </div>
+        <div id='zxc'>
+        	<div id='zxc_1' class='zxc_'>
+                <ul id='zxc_1_left_ul'>
+                </ul> 
+            </div>
+        	<div id='zxc_2' class='zxc_'>
+                <ul id='zxc_2_left_ul'>
+                </ul>
+            </div>
+        	<div id='zxc_3' class='zxc_'>
+                <ul id='zxc_3_left_ul'>
+                </ul>
+            </div>
+        	<div id='zxc_4' class='zxc_'>
+            	<ul id='zxc_4_left_ul'>
+                </ul>  
+            </div>
+        	<div id='zxc_5' class='zxc_'>
+                <ul id='zxc_5_left_ul'>
+                </ul>    
+            </div>
+        	<div id='zxc_6' class='zxc_'></div>
+        </div>    
+    </div>
+    <div id='activity01_dialog'>
+    	<div id='activity01_left'>
+        	<a href="javascript:;" id='activity01_left_text' class='left_text' target='_blank'>hello</a>
+            <a href="javascript:;" id='activity01_left_href' class='left_href' target='_blank'>进入&nbsp;&#8250;&#8250;</a>
+        </div>
+        <div id='activity01_middle' class='middle'>
+        	<div id='activity01_middle_toplist'>
+            	<div id='activity01_middle_toplist_select_time' class='middle_toplist_select_time'><a href="javascript:;" id='activity01_middle_toplist_select_time_text' class='middle_toplist_select_time_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按时间排序</a></div>
+            	<div id='activity01_middle_toplist_select_hot' class='middle_toplist_select_hot'><a href="javascript:;" id='activity01_middle_toplist_select_hot_text' class='middle_toplist_select_hot_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按热度排序</a></div>
+            	<div id='activity01_middle_toplist_select_distance' class='middle_toplist_select_distance'><a href="javascript:;" id='activity01_middle_toplist_select_distance_text' class='middle_toplist_select_distance_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按距离排序</a></div>
+                <div id='activity01_middle_toplist_showmore' class='middle_toplist_showmore'><a href="javascript:;" id='activity01_middle_toplist_showmore_text' class='middle_toplist_showmore_text' target='_blank'>更多&nbsp;&#8250;&#8250;</a></div>
+            </div>
+            
+            <dl id='activity01_middle__main_list' class='middle__main_list'>
+           	</dl>
+            
+        </div>
+        <div id='activity01_right'>
+        	<div id='activity01_right_top' class='right_top'>——— 猜你喜欢 ———</div>
+            <a href="javascript:;" id='activity01_change_right' class="change_right"><i class='iconfont' id='i1' style="color:#FFF;">&#xe626;</i>换一换</a>
+        	<div id='activity01_right_title_1' class="right_title"></div>
+            <div id='activity01_right_content_1' class='right_content' title="查看活动"></div>
+            <div id='activity01_right_title_2' class="right_title"></div>
+            <div id='activity01_right_content_2' class='right_content' title="查看活动"></div>
+            <div id='activity01_right_title_3' class="right_title"></div>
+            <div id='activity01_right_content_3' class='right_content' title="查看活动"></div>
+        </div>
+    </div>
+    <div id='activity02_dialog'>
+    	<div id='activity02_left'>
+        	<a href="javascript:;" id='activity02_left_text' class='left_text' target='_blank'>hello</a>
+            <a href="javascript:;" id='activity02_left_href' class='left_href' target='_blank'>进入&nbsp;&#8250;&#8250;</a>
+        </div>
+        <div id='activity02_middle' class='middle'>
+        	<div id='activity02_middle_toplist'>
+            	<div id='activity02_middle_toplist_select_time' class='middle_toplist_select_time'><a href="javascript:;" id='activity01_middle_toplist_select_time_text' class='middle_toplist_select_time_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按时间排序</a></div>
+            	<div id='activity02_middle_toplist_select_hot' class='middle_toplist_select_hot'><a href="javascript:;" id='activity01_middle_toplist_select_hot_text' class='middle_toplist_select_hot_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按热度排序</a></div>
+            	<div id='activity02_middle_toplist_select_distance' class='middle_toplist_select_distance'><a href="javascript:;" id='activity01_middle_toplist_select_distance_text' class='middle_toplist_select_distance_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按距离排序</a></div>
+                <div id='activity02_middle_toplist_showmore' class='middle_toplist_showmore'><a href="javascript:;" id='activity02_middle_toplist_showmore_text' class='middle_toplist_showmore_text' target='_blank'>更多&nbsp;&#8250;&#8250;</a></div>
+            </div>
+            
+            <dl id='activity02_middle__main_list' class='middle__main_list'>
+           	</dl>
+            
+        </div>
+        <div id='activity02_right'>
+        	<div id='activity02_right_top' class='right_top'>——— 猜你喜欢 ———</div>
+            <a href="javascript:;" id='activity02_change_right' class="change_right"><i class='iconfont' id='i1' style="color:#FFF;">&#xe626;</i>换一换</a>
+        	<div id='activity02_right_title_1' class="right_title"></div>
+            <div id='activity02_right_content_1' class='right_content' title="查看活动"></div>
+            <div id='activity02_right_title_2' class="right_title"></div>
+            <div id='activity02_right_content_2' class='right_content' title="查看活动"></div>
+            <div id='activity02_right_title_3' class="right_title"></div>
+            <div id='activity02_right_content_3' class='right_content' title="查看活动"></div>
+        </div>
+    </div>
+    <div id='activity03_dialog'>
+    	<div id='activity03_left'>
+        	<a href="javascript:;" id='activity03_left_text' class='left_text' target='_blank'>hello</a>
+            <a href="javascript:;" id='activity03_left_href' class='left_href' target='_blank'>进入&nbsp;&#8250;&#8250;</a>
+        </div>
+        <div id='activity03_middle' class='middle'>
+        	<div id='activity03_middle_toplist'>
+            	<div id='activity03_middle_toplist_select_time' class='middle_toplist_select_time'><a href="javascript:;" id='activity01_middle_toplist_select_time_text' class='middle_toplist_select_time_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按时间排序</a></div>
+            	<div id='activity03_middle_toplist_select_hot' class='middle_toplist_select_hot'><a href="javascript:;" id='activity01_middle_toplist_select_hot_text' class='middle_toplist_select_hot_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按热度排序</a></div>
+            	<div id='activity03_middle_toplist_select_distance' class='middle_toplist_select_distance'><a href="javascript:;" id='activity01_middle_toplist_select_distance_text' class='middle_toplist_select_distance_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按距离排序</a></div>
+                <div id='activity03_middle_toplist_showmore' class='middle_toplist_showmore'><a href="javascript:;" id='activity03_middle_toplist_showmore_text' class='middle_toplist_showmore_text' target='_blank'>更多&nbsp;&#8250;&#8250;</a></div>
+            </div>
+            
+            <dl id='activity03_middle__main_list' class='middle__main_list'>
+           	</dl>
+           
+        </div>
+        <div id='activity03_right'>
+        	<div id='activity03_right_top' class='right_top'>——— 猜你喜欢 ———</div>            
+            <a href="javascript:;" id='activity03_change_right' class="change_right"><i class='iconfont' id='i1' style="color:#FFF;">&#xe626;</i>换一换</a>
+        	<div id='activity03_right_title_1' class="right_title"></div>
+            <div id='activity03_right_content_1' class='right_content' title="查看活动"></div>
+            <div id='activity03_right_title_2' class="right_title"></div>
+            <div id='activity03_right_content_2' class='right_content' title="查看活动"></div>
+            <div id='activity03_right_title_3' class="right_title"></div>
+            <div id='activity03_right_content_3' class='right_content' title="查看活动"></div>
+        </div>
+    </div>
+    <div id='activity04_dialog'>
+    	<div id='activity04_left'>
+        	<a href="javascript:;" id='activity04_left_text' class='left_text' target='_blank'>hello</a>
+            <a href="javascript:;" id='activity04_left_href' class='left_href' target='_blank'>进入&nbsp;&#8250;&#8250;</a>
+        </div>
+        <div id='activity04_middle' class='middle'>
+        	<div id='activity04_middle_toplist'>
+            	<div id='activity04_middle_toplist_select_time' class='middle_toplist_select_time'><a href="javascript:;" id='activity01_middle_toplist_select_time_text' class='middle_toplist_select_time_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按时间排序</a></div>
+            	<div id='activity04_middle_toplist_select_hot' class='middle_toplist_select_hot'><a href="javascript:;" id='activity01_middle_toplist_select_hot_text' class='middle_toplist_select_hot_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按热度排序</a></div>
+            	<div id='activity04_middle_toplist_select_distance' class='middle_toplist_select_distance'><a href="javascript:;" id='activity01_middle_toplist_select_distance_text' class='middle_toplist_select_distance_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按距离排序</a></div>
+                <div id='activity04_middle_toplist_showmore' class='middle_toplist_showmore'><a href="javascript:;" id='activity04_middle_toplist_showmore_text' class='middle_toplist_showmore_text' target='_blank'>更多&nbsp;&#8250;&#8250;</a></div>
+            </div>
+            
+            <dl id='activity04_middle__main_list' class='middle__main_list'>
+           	</dl>
+            
+        </div>
+        <div id='activity04_right'>
+        	<div id='activity04_right_top' class='right_top'>——— 猜你喜欢 ———</div>
+            <a href="javascript:;" id='activity04_change_right' class="change_right"><i class='iconfont' id='i1' style="color:#FFF;">&#xe626;</i>换一换</a>
+        	<div id='activity04_right_title_1' class="right_title"></div>
+            <div id='activity04_right_content_1' class='right_content' title="查看活动"></div>
+            <div id='activity04_right_title_2' class="right_title"></div>
+            <div id='activity04_right_content_2' class='right_content' title="查看活动"></div>
+            <div id='activity04_right_title_3' class="right_title"></div>
+            <div id='activity04_right_content_3' class='right_content' title="查看活动"></div>
+        </div>
+    </div>
+    <div id='activity05_dialog'>
+    	<div id='activity05_left'>
+        	<a href="javascript:;" id='activity05_left_text' class='left_text' target='_blank'>hello</a>
+            <a href="javascript:;" id='activity05_left_href' class='left_href' target='_blank'>进入&nbsp;&#8250;&#8250;</a>
+        </div>
+        <div id='activity05_middle' class='middle'>
+        	<div id='activity05_middle_toplist'>
+            	<div id='activity05_middle_toplist_select_time' class='middle_toplist_select_time'><a href="javascript:;" id='activity01_middle_toplist_select_time_text' class='middle_toplist_select_time_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按时间排序</a></div>
+            	<div id='activity05_middle_toplist_select_hot' class='middle_toplist_select_hot'><a href="javascript:;" id='activity01_middle_toplist_select_hot_text' class='middle_toplist_select_hot_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按热度排序</a></div>
+            	<div id='activity05_middle_toplist_select_distance' class='middle_toplist_select_distance'><a href="javascript:;" id='activity01_middle_toplist_select_distance_text' class='middle_toplist_select_distance_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按距离排序</a></div>
+                <div id='activity05_middle_toplist_showmore' class='middle_toplist_showmore'><a href="javascript:;" id='activity05_middle_toplist_showmore_text' class='middle_toplist_showmore_text' target='_blank'>更多&nbsp;&#8250;&#8250;</a></div>
+            </div>
+            
+            <dl id='activity05_middle__main_list' class='middle__main_list'>
+           	</dl>
+            
+        </div>
+        <div id='activity05_right'>
+        	<div id='activity05_right_top' class='right_top'>——— 猜你喜欢 ———</div>
+            <a href="javascript:;" id='activity05_change_right' class="change_right"><i class='iconfont' id='i1' style="color:#FFF;">&#xe626;</i>换一换</a>
+        	<div id='activity05_right_title_1' class="right_title"></div>
+            <div id='activity05_right_content_1' class='right_content' title="查看活动"></div>
+            <div id='activity05_right_title_2' class="right_title"></div>
+            <div id='activity05_right_content_2' class='right_content' title="查看活动"></div>
+            <div id='activity05_right_title_3' class="right_title"></div>
+            <div id='activity05_right_content_3' class='right_content' title="查看活动"></div>
+        </div>
+    </div>
+    <div id='activity06_dialog'>
+    	<div id='activity06_left'>
+        	<a href="javascript:;" id='activity06_left_text' class='left_text' target='_blank'>hello</a>
+            <a href="javascript:;" id='activity06_left_href' class='left_href' target='_blank'>进入&nbsp;&#8250;&#8250;</a>
+        </div>
+        <div id='activity06_middle' class='middle'>
+        	<div id='activity06_middle_toplist'>
+            	<div id='activity06_middle_toplist_select_time' class='middle_toplist_select_time'><a href="javascript:;" id='activity01_middle_toplist_select_time_text' class='middle_toplist_select_time_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按时间排序</a></div>
+            	<div id='activity06_middle_toplist_select_hot' class='middle_toplist_select_hot'><a href="javascript:;" id='activity01_middle_toplist_select_hot_text' class='middle_toplist_select_hot_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按热度排序</a></div>
+            	<div id='activity06_middle_toplist_select_distance' class='middle_toplist_select_distance'><a href="javascript:;" id='activity01_middle_toplist_select_distance_text' class='middle_toplist_select_distance_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按距离排序</a></div>
+                <div id='activity06_middle_toplist_showmore' class='middle_toplist_showmore'><a href="javascript:;" id='activity06_middle_toplist_showmore_text' class='middle_toplist_showmore_text' target='_blank'>更多&nbsp;&#8250;&#8250;</a></div>
+            </div>
+            
+            <dl id='activity06_middle__main_list' class='middle__main_list'>
+           	</dl>
+           
+        </div>
+        <div id='activity06_right'>
+        	<div id='activity06_right_top' class='right_top'>——— 猜你喜欢 ———</div>            
+            <a href="javascript:;" id='activity06_change_right' class="change_right"><i class='iconfont' id='i1' style="color:#FFF;">&#xe626;</i>换一换</a>
+        	<div id='activity06_right_title_1' class="right_title"></div>
+            <div id='activity06_right_content_1' class='right_content' title="查看活动"></div>
+            <div id='activity06_right_title_2' class="right_title"></div>
+            <div id='activity06_right_content_2' class='right_content' title="查看活动"></div>
+            <div id='activity06_right_title_3' class="right_title"></div>
+            <div id='activity06_right_content_3' class='right_content' title="查看活动"></div>
+        </div>
+    </div>
+    <div id='activity07_dialog'>
+    	<div id='activity07_left'>
+        	<a href="javascript:;" id='activity07_left_text' class='left_text' target='_blank'>hello</a>
+            <a href="javascript:;" id='activity07_left_href' class='left_href' target='_blank'>进入&nbsp;&#8250;&#8250;</a>
+        </div>
+        <div id='activity07_middle' class='middle'>
+        	<div id='activity07_middle_toplist'>
+            	<div id='activity07_middle_toplist_select_time' class='middle_toplist_select_time'><a href="javascript:;" id='activity01_middle_toplist_select_time_text' class='middle_toplist_select_time_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按时间排序</a></div>
+            	<div id='activity07_middle_toplist_select_hot' class='middle_toplist_select_hot'><a href="javascript:;" id='activity01_middle_toplist_select_hot_text' class='middle_toplist_select_hot_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按热度排序</a></div>
+            	<div id='activity07_middle_toplist_select_distance' class='middle_toplist_select_distance'><a href="javascript:;" id='activity01_middle_toplist_select_distance_text' class='middle_toplist_select_distance_text'><i class="iconfont" style="font-size:13px;">&#xe602;</i>按距离排序</a></div>
+                <div id='activity07_middle_toplist_showmore' class='middle_toplist_showmore'><a href="javascript:;" id='activity07_middle_toplist_showmore_text' class='middle_toplist_showmore_text' target='_blank'>更多&nbsp;&#8250;&#8250;</a></div>
+            </div>
+            
+            <dl id='activity07_middle__main_list' class='middle__main_list'>
+           	</dl>
+            
+        </div>
+        <div id='activity07_right'>
+        	<div id='activity07_right_top' class='right_top'>——— 猜你喜欢 ———</div>
+            <a href="javascript:;" id='activity07_change_right' class="change_right"><i class='iconfont' id='i1' style="color:#FFF;">&#xe626;</i>换一换</a>
+        	<div id='activity07_right_title_1' class="right_title"></div>
+            <div id='activity07_right_content_1' class='right_content' title="查看活动"></div>
+            <div id='activity07_right_title_2' class="right_title"></div>
+            <div id='activity07_right_content_2' class='right_content' title="查看活动"></div>
+            <div id='activity07_right_title_3' class="right_title"></div>
+            <div id='activity07_right_content_3' class='right_content' title="查看活动"></div>
+        </div>
+    </div>
+</div>
+<div id='foot_mod'>
+	<div id="copyright_information">© copyright information</div>
+</div>
+
+</body>
+</html>

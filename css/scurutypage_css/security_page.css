@@ -1,0 +1,270 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{
+	background-color:#00AF42;
+	margin:0;
+	padding:0;}
+
+#top_mod{
+	display:block;
+	height:78px;
+	width:900px;
+	margin:30px auto 0 auto;
+	background-color:#00AF42;
+	color:#FFF;
+	font-family:'Microsoft Yahei';
+	font-size:36px;
+	line-height:50px;
+	padding-top:20px;
+	padding-left:80px;}
+#main_mod{
+	display:block;
+	position:relative;
+	width:900px;
+	height:480px;
+	margin:auto;
+	background-color:#FFF;}
+#main_left{
+	display:inline-block;
+	width:194px;
+	height:480px;
+	position:absolute;
+	top:0;
+	left:0;
+	background:rgba(0,175,66,0.7);}
+#green_vertical{
+	display:inline-block;
+	height:34px;
+	width:5px;
+	position:absolute;
+	left:262px;
+	top:50px;
+	background-color:#00AF42;}
+#green_line{
+	display:inline-block;
+	height:1px;
+	width:576px;
+	position:absolute;
+	left:262px;
+	top:84px;
+	background-color:#00AF42;}
+h2{
+	display:inline-block;
+	position:absolute;
+	left:280px;
+	top:30px;
+	font-style:normal;
+	font-family:'Microsoft Yahei';
+	color:#00AF42;}
+.selected{
+	display:inline-block;
+	width:576px;
+	height:35px;
+	position:relative;
+	top:125px;
+	left:230px;}
+#find_phone_selected{
+	display:inline-block;
+	width:215px;
+	height:30px;
+	background:rgba(0,175,66,1);
+	color:#FFF;
+	font-family:'Microsoft Yahei';
+	font-size:15px;
+	padding-top:3px;
+	text-align:center;
+	border-radius:4px;
+	box-shadow:2px 5px 5px #CCC;
+	cursor:pointer;}
+#find_email_selected{
+	display:inline-block;
+	width:215px;
+	height:30px;
+	position:relative;
+	left:20px;
+	background:rgba(227,227,227,0.8);
+	color:#FFF;
+	font-family:'Microsoft Yahei';
+	font-size:15px;
+	padding-top:3px;
+	text-align:center;
+	border-radius:4px;
+	cursor:pointer;}
+#change_phone_selected{
+	display:inline-block;
+	width:215px;
+	height:30px;
+	background:rgba(0,175,66,1);
+	color:#FFF;
+	font-family:'Microsoft Yahei';
+	font-size:15px;
+	padding-top:3px;
+	text-align:center;
+	border-radius:4px;
+	box-shadow:2px 5px 5px #CCC;
+	cursor:pointer;}
+#change_email_selected{
+	display:inline-block;
+	width:215px;
+	height:30px;
+	position:relative;
+	left:20px;
+	background:rgba(227,227,227,0.8);
+	color:#FFF;
+	font-family:'Microsoft Yahei';
+	font-size:15px;
+	padding-top:3px;
+	text-align:center;
+	border-radius:4px;
+	cursor:pointer;}
+#main_left_find{
+	display:inline-block;
+	position:absolute;
+	top:75px;
+	left:52px;
+	width:170px;
+	height:38px;
+	color:#FFF;
+	font-weight:normal;
+	font-family:'Microsoft Yahei';
+	font-size:20px;
+	text-align:center;
+	padding-top:12px;
+	background:rgba(0,175,66,1);
+	cursor:pointer;}
+#main_left_change{
+	display:inline-block;
+	position:absolute;
+	top:133px;
+	left:22px;
+	width:170px;
+	height:38px;
+	color:#FFF;
+	font-weight:normal;
+	font-family:'Microsoft Yahei';
+	font-size:20px;
+	text-align:center;
+	padding-top:12px;
+	background:rgba(0,175,66,0.3);
+	cursor:pointer;}
+#main_right_find{
+	display:block;}
+#main_right_change{
+	display:none;}
+#main_right_find_form_phone{
+	display:block;}
+#main_right_find_form_email{
+	display:none;}
+#main_right_change_form_phone{
+	display:block;}
+#main_right_change_form_email{
+	display:none;}
+form{
+	display:block;
+	width:580px;
+	height:245px;
+	display:block;
+	position:relative;
+	top:100px;
+	left:230px;
+	padding-left:50px;
+	padding-top:35px;
+	background-color:#FFF;
+	border:solid 1px #FFF;
+	border-top:solid 1px #FFF;
+	box-shadow:2px 2px 5px #CCC;}
+input[type="text"]{
+	color:#000;
+	font-size:17px;
+	font-family:'Microsoft Yahei';}
+input[type="password"]{
+	color:#000;
+	font-size:17px;
+	font-family:'Microsoft Yahei';}
+.tip{
+	color:#858585;
+	font-size:13px;
+	position:relative;
+	left:12px;}
+.ierror{
+	position:relative;
+	left:120px;
+	color:#F00;
+	font-size:13px;}
+.find_verify{
+	width:80px;}
+.change_verify{
+	display:inline-block;
+	position:absolute;
+	top:163px;
+	right:267px;
+	font-size:13px;}
+#find_phone_next_button{
+	color:#FFF;
+	font-family:'Microsoft Yahei';
+	font-size:16px;
+	line-height:34px;
+	display:block;
+	width:140px;
+	height:34px;
+	text-align:center;
+	background:rgba(0,175,66,0.8);
+	border-radius:10px;
+	position:relative;
+	top:0px;
+	left:160px;
+	cursor:pointer;}
+#find_email_next_button{
+	color:#FFF;
+	font-family:'Microsoft Yahei';
+	font-size:16px;
+	line-height:34px;
+	display:block;
+	width:140px;
+	height:34px;
+	text-align:center;
+	background:rgba(0,175,66,0.8);
+	border-radius:10px;
+	position:relative;
+	top:0px;
+	left:160px;
+	cursor:pointer;}
+#change_phone_next_button{
+	color:#FFF;
+	font-family:'Microsoft Yahei';
+	font-size:16px;
+	line-height:34px;
+	display:block;
+	width:140px;
+	height:34px;
+	text-align:center;
+	background:rgba(0,175,66,0.8);
+	border-radius:10px;
+	position:relative;
+	top:0px;
+	left:160px;
+	cursor:pointer;}
+#change_email_next_button{
+	color:#FFF;
+	font-family:'Microsoft Yahei';
+	font-size:16px;
+	line-height:34px;
+	display:block;
+	width:140px;
+	height:34px;
+	text-align:center;
+	background:rgba(0,175,66,0.8);
+	border-radius:10px;
+	position:relative;
+	top:0px;
+	left:160px;
+	cursor:pointer;}
+
+#foot_mod{
+	display:block;
+	margin:35px auto;
+	text-align:center;
+	color:#FFF;
+	font-size:12px;
+	font-family:'Microsoft Yahei';}

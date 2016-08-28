@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link href="css/scurutypage_css/security_page.css" rel="stylesheet" type="text/css" />
+<link href="css/iconfont.css" rel="stylesheet" type="text/css"/>
+<script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"  type="text/javascript"></script>
+<script src="../carhartl-jquery-cookie-92b7715/jquery.cookie.js"  type="text/javascript"></script>
+<script src="js/scurutypage_js/jquery.validate.js"  type="text/javascript"></script>
+<script src="js/scurutypage_js/security_page.js"  type="text/javascript"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>账户安全中心页</title>
+</head>
+
+<body>
+<div id='top_mod'> 
+	<div id='top_title'>
+    账户安全中心
+    </div>
+</div>
+<div id='main_mod'>
+	<div id='main_left'>
+    <div id='main_left_find'>找回密码&nbsp;<i class="iconfont" style="font-size:18px;">&#xe62e;</i></div>
+    <div id='main_left_change'>修改密码&nbsp;<i class="iconfont" style="font-size:18px;">&#xe62d;</i></div>
+    </div>
+    <div id='main_right'>
+    	<div id='main_right_find'>
+       		<div id='green_vertical'></div>
+    		<div id='green_line'></div>
+        	<h2 id='main_right_find_title'>找回密码</h2>
+            <p class='selected'><span id='find_phone_selected'>手机号码找回密码</span><span id='find_email_selected'>邮箱地址找回密码</span></p>
+            <form id='main_right_find_form_phone'>
+            	<p class='text' >
+    			<label for='find_phone' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;手机号码:</label>
+        		<input type='text' id='find_phone' name='find_phone' autocomplete="off"/>
+                <span class='tip'>请输入登录时使用的手机账号</span><br/>
+    			</p>
+        		<span class='ierror'>&nbsp;</span>
+                <br/>
+                 <p class='verify'>
+                <label for='find_verify' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;验证码:</label>
+                <input type="text" class='find_verify' name='find_verify' autocomplete="off"/>
+                <img src="http://49.140.166.99:8080/eLife/api/server.php?action=getVerify" class='verify_img' width="80px" height="28px"/>
+                </p>
+        		<span class='ierror'>&nbsp;</span>
+    			<a href="javascript:;" class="change_verify">看不清,换一张</a>
+                <p id='find_phone_next_button' class='next'>下一步</p>
+            </form>
+            
+            <form id='main_right_find_form_email'>	
+                <p class='text'>
+    			<label for='find_email' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮箱地址:</label>
+        		<input type='text' id='find_email' name='find_email' autocomplete="off"/>
+                <span class='tip'>请输入登录时使用的邮箱账号</span><br/>
+    			</p>
+        		<span class='ierror'>&nbsp;</span>
+                <br/>
+                 <p class='verify'>
+                <label for='find_verify' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;验证码:</label>
+                <input type="text" class='find_verify' name='find_verify' autocomplete="off"/>
+                <img src="http://49.140.166.99:8080/eLife/api/server.php?action=getVerify" class='verify_img' width="80px" height="28px"/>
+                </p>
+        		<span class='ierror'>&nbsp;</span>
+    			<a href="javascript:;" class="change_verify">看不清,换一张</a>
+                <p id='find_email_next_button' class='next'>下一步</p>
+            </form>
+        </div>
+        <div id='main_right_change'>
+        	<div id='green_vertical'></div>
+    		<div id='green_line'></div>
+        	<h2 id='main_right_change_title'>修改密码</h2>
+            <p class='selected'><span id='change_phone_selected'>手机号码找回密码</span><span id='change_email_selected'>邮箱地址找回密码</span></p>
+            <form id='main_right_change_form_phone'>
+            	<p class='text'>
+    			<label for='change_phone' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;手机号码:</label>
+        		<input type='text' id='change_phone' name='change_phone' autocomplete="off"/>
+                <span class='tip'>请输入登录时使用的手机账号</span><br/>
+    			</p>
+        		<span class='ierror'>&nbsp;</span>
+                <br/>
+                <p class='password'>
+                <label for='change_phone_old_password' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;旧密码:</label>
+                <input type="password" id='change_phone_old_password' name='change_phone_old_password' autocomplete="off"/>
+                <span class='tip'>请输入原来所使用的密码</span><br/>
+                </p>
+                <span class='ierror'>&nbsp;</span>
+                <p id='change_phone_next_button' class='next'>下一步</p>
+            </form>
+            <form id='main_right_change_form_email'>
+            	<p class='text'>
+    			<label for='change_email' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮箱地址:</label>
+        		<input type='text' id='change_email' name='change_email' autocomplete="off"/>
+                <span class='tip'>请输入登录时使用的邮箱账号</span><br/>
+    			</p>
+        		<span class='ierror'>&nbsp;</span>
+                <br/>
+                <p class='password'>
+                <label for='change_email_old_password' style="line-height:30px;font-family:'Microsoft Yahei';font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;旧密码:</label>
+                <input type="password" id='change_email_old_password' name='change_email_old_password' autocomplete="off"/>
+                <span class='tip'>请输入原来所使用的密码</span><br/>
+                </p>
+                <span class='ierror'>&nbsp;</span>
+                <p id='change_email_next_button' class='next'>下一步</p>
+           </form>
+        </div>
+    </div>
+</div>
+<div id='foot_mod'>© copyright information</div>
+</body>
+</html>
