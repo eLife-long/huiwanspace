@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<form id="getmessage" action="../api/server.php" method="post"> 
+      
+    <p>Phone：<input type="text" class="input" name="phone" id="phone"></p> 
+    <p>action：<input type="text" class="input" name="action" id="action" value='getMessageVerify'></p>
+    <p><input type="submit" class="btn" value="获取手机验证码"></p> 
+</form> 
+<form id="phoneReg" action="../api/server.php" method="post"> 
+    <p>Phone：<input type="text" class="input" name="phone" id="phone"></p> 
+    <p>手机验证码：<input type="text" class="input" name="messageCode" id="messageCode"></p>
+    <p>密 码：<input type="password" class="input" name="password" id="password"></p>
+    <p>action：<input type="text" class="input" name="action" id="action" value='userReg'></p>
+    <p><input type="submit" class="btn" value="提交注册"></p> 
+</form> 
+<form id="emailReg" action="../api/server.php" method="post"> 
+    <p>E-mail：<input type="text" class="input" name="email" id="email"></p> 
+    <p>密 码：<input type="password" class="input" name="password" id="password"></p>
+    <p>action：<input type="text" class="input" name="action" id="action" value='userReg'></p>
+    <p><input type="submit" class="btn" value="提交注册"></p> 
+</form> 
+</body>
+</html>

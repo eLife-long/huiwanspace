@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+</head>
+<body>
+	<form id="reg" action="../api/appServer.php" method="post"> 
+	<p>用户名：<input type="text" class="input" name="username" id="username"></p>  
+    <p>登录用户：<input type="text" class="input" name="loginId" id="loginId"></p>  
+    <p>注册手机：<input  class="input" name="phone" id="phone" value=''></p>
+    <p>注册邮箱：<input  class="input" name="email" id="email" value=''></p>
+    <p>密 码：<input type="password" class="input" name="password" id="pass"></p> 
+    <p>action：<input  class="input" name="action" id="action" value='userLogin'></p>
+    <p>agent：<input  class="input" name="agent" id="agent" value='web'></p>
+    <p>token：<input  class="input" name="token" id="token" value='token'></p>
+    <p>page：<input  class="input" name="page" id="page" value='1'></p>
+    <p>lastTime：<input  class="input" name="lastTime" id="lastTime" value=''></p>
+    <p>firstTime：<input  class="input" name="firstTime" id="firstTime" value=''></p>
+    <p>pId：<input  class="input" name="pId" id="pId" value=''></p>
+    <p>sId：<input  class="input" name="sId" id="sId" value=''></p>
+    <p>cId：<input  class="input" name="cId" id="cId" value=''></p>
+    <p>sessionId：<input  class="input" name="sessionId" id="sessionId" value=''></p>
+    <p>手机验证码：<input  class="input" name="messageCode" id="messageCode" value=''></p>
+    <p>
+               	<label for='verify' style="line-height:25px">验证码:</label>           
+            <input type='text' id='verify' name='verify' style="width:120px"/>
+            <img src="http://49.140.166.99:8080/eLife/api/server.php?action=getVerify" id='verify_img' width="80px" height="28px"/>
+    </p>
+    <p><input type="submit" class="btn" value="登录"></p> 
+</form> 
+</body>
+</html>

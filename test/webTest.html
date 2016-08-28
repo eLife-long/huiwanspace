@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+</head>
+<body>
+	<form id="reg" action="../api/webServer.php" method="post" enctype="multipart/form-data"> 
+	<p>用户名：<input type="text" class="input" name="username" id="username"></p>  
+    <p>登录用户：<input type="text" class="input" name="loginId" id="loginId"></p>  
+    <p>注册手机：<input  class="input" name="phone" id="phone" value=''></p>
+    <p>注册邮箱：<input  class="input" name="email" id="email" value=''></p>
+    <p>密 码：<input type="password" class="input" name="password" id="pass"></p> 
+    <p>action：<input  class="input" name="action" id="action" value=''></p>
+    <p>agent：<input  class="input" name="agent" id="agent" value=''></p>
+    <p>token：<input  class="input" name="token" id="token" value=''></p>
+    <p>page：<input  class="input" name="page" id="page" value=''></p>
+    <p>lastTime：<input  class="input" name="lastTime" id="lastTime" value=''></p>
+    <p>firstTime：<input  class="input" name="firstTime" id="firstTime" value=''></p>
+    <p>pId：<input  class="input" name="pId" id="pId" value=''></p>
+    <p>sId：<input  class="input" name="sId" id="sId" value=''></p>
+    <p>cId：<input  class="input" name="cId" id="cId" value=''></p>
+    <p>username：<input  class="input" name="username" id="username" value=''></p>
+    <p>sex：<input  class="input" name="sex" id="sex" value=''></p>
+    <p>uId：<input  class="input" name="uId" id="uId" value=''></p>
+    <p>id：<input  class="input" name="id" id="id" value=''></p>
+    <p>sessionId：<input  class="input" name="sessionId" id="sessionId" value=''></p>
+
+		<p>请选择要上传的活动图片:<input type="file" name="myFile" /></p>
+
+    <p>手机验证码：<input  class="input" name="messageCode" id="messageCode" value=''></p>
+    <p>
+               	<label for='verify' style="line-height:25px">验证码:</label>           
+            <input type='text' id='verify' name='verify' style="width:120px"/>
+            <img src="http://49.140.166.99:8080/huiwanspace/api/webServer.php?action=getVerify" id='verify_img' width="80px" height="28px"/>
+    </p>
+    <p><input type="submit" class="btn" value="登录"></p> 
+</form> 
+	<form id="reg" action="http://49.140.166.99:8080/huiwanspace/api/webServer.php" method="post"> 
+	<p>sId：<input type="text" class="input" name="sId" id="sId"></p>  
+    <p>cId：<input type="text" class="input" name="cId" id="cId"></p>  
+    <p>uId1：<input  class="input" name="uId1" id="uId1" value=''></p>
+    <p>uId2：<input  class="input" name="uId2" id="uId2" value=''></p>
+    <p>user_id：<input  class="input" name="user_id" id="user_id" value=''></p>
+    <p>content：<input  class="input" name="content" id="content" value=''></p>
+        <p>action：<input  class="input" name="action" id="action" value='comment'></p>
+    <p><input type="submit" class="btn" value="评论或回复"></p> 
+</form> 
+</body>
+</html>
