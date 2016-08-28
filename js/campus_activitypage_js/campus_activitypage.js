@@ -135,12 +135,12 @@ function textContent(){
 function verify_Create(parent){
 	var newa=document.createElement('img');
 	var request=new XMLHttpRequest();
-	request.open('GET',"http://115.28.240.191/api/webServer.php?action=getVerify",true);
+	request.open('GET',"http://49.140.166.99/huiwanspace//api/webServer.php?action=getVerify",true);
 	request.send();
 	request.onreadystatechange=function(){
 		if(request.readyState===4){
 			if(request.status===200){
-				newa.src="http://115.28.240.191/api/webServer.php?action=getVerify";
+				newa.src="http://49.140.166.99/huiwanspace//api/webServer.php?action=getVerify";
 			}
 		}
 	}
@@ -184,7 +184,7 @@ $(document).ready(function(){
 	var $sname;
 	var $firstcid;
 	var $cid=[];
-	var $url="http://115.28.240.191/";
+	var $url="http://49.140.166.99/huiwanspace//";
 	//从url上获取信息
 	$(function(){
 		var Request = new Object();
