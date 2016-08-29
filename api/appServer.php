@@ -109,11 +109,11 @@ switch ($action) {
         break;
     
     case "follow": // 加关注
-        ApiForCommon::follow();
+        ApiForCommon::attention();
         break;
     
     case "cancelFollow": // 取消关注
-        ApiForCommon::cancelFollow();
+        ApiForCommon::cancelAttention();
         break;
     
     case "getUserFollower": // 获取粉丝列表

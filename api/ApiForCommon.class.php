@@ -1269,7 +1269,7 @@ class ApiForCommon
     /**
      * 加关注
      */
-    public static function follow()
+    public static function attention()
     {
         global $result; // 更新userLog日志表要用
         global $db_obj;
@@ -1282,7 +1282,7 @@ class ApiForCommon
                 $arr['time'] = time();
                 $sql = "select id from hw_follow where follower_id={$arr['follower_id']} and user_id={$arr['user_id']}"; // 是否已经关注了该用户
                 if (! $db_obj->fetchOne($sql)) {
-                    $bool = User::follow($arr);
+                    $bool = User::Attention($arr);
                     if ($bool) {
                         $result['status'] = 1;
                         $result['message'] = '关注成功';
@@ -1308,7 +1308,7 @@ class ApiForCommon
     /**
      * 取消关注
      */
-    public static function cancelFollow()
+    public static function cancelAttention()
     {
         global $result; // 更新userLog日志表要用
         global $db_obj;
@@ -1319,7 +1319,7 @@ class ApiForCommon
             if ($db_obj->fetchOne($sql)) {
                 $sql = "select id from hw_follow where follower_id={$arr['follower_id']} and user_id={$arr['user_id']}"; // 是否已经关注了该用户
                 if ($db_obj->fetchOne($sql)) {
-                    $bool = User::cancelFollow($arr);
+                    $bool = User::cancelAttention($arr);
                     if ($bool) {
                         $result['status'] = 1;
                         $result['message'] = '取消关注成功';
@@ -2027,6 +2027,16 @@ class ApiForCommon
                 $result1['remainXP'] = $exps['remain'];
                 $result1['lackXP'] = $exps['lack'];
                 $result1['levelXP'] = $exps['remain']+$exps['lack'];
+                if($_SESSION['uId'] != ''){//如果登录了,则显示是否关注过
+                    $bool = User::checkAttention($_SESSION['uId'], $uId);
+                    if($bool){
+                        $result1['isAttention'] = 1;//关注过
+                    }else{
+                        $result1['isAttention'] = 0;//没有关注过
+                    }
+                }else{//否则，默认为没有赞过
+                    $result1['isAttention'] = 0;//没有关注过
+                }
                 $result['datas'] = $result1;
             } else {
                 $result['status'] = 2;

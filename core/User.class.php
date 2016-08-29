@@ -565,7 +565,7 @@ class User
      * @param array $arr
      * @return boolean
      */
-    public static function follow($arr){
+    public static function Attention($arr){
         global $db_obj;
         mysqli_autocommit($db_obj->connect(), FALSE);
         //插入follow表中
@@ -598,7 +598,7 @@ class User
      * @param array $arr
      * @return boolean
      */
-    public static function cancelFollow($arr){
+    public static function cancelAttention($arr){
         global $db_obj;
         mysqli_autocommit($db_obj->connect(), FALSE);
         //删除follow表中的记录
@@ -620,6 +620,24 @@ class User
             return true;
         }else{
             mysqli_rollback($db_obj->connect());
+            return false;
+        }
+    }
+    
+    /**
+     * 检查是否关注过该用户
+     * @param int $uId
+     * @param int $sId
+     * @return boolean
+     */
+    public static function checkAttention($follower_id,$user_id){
+        global $db_obj;
+        $sql = "select id from hw_follow where follower_id={$follower_id} and user_id={$user_id}";
+        //echo $sql;
+        $row = $db_obj->fetchOne($sql);
+        if($row){
+            return true;
+        }else{
             return false;
         }
     }

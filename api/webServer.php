@@ -112,12 +112,12 @@ switch ($action) {
         ApiForCommon::getUserPraise();
         break;
     
-    case "follow": // 加关注
-        ApiForCommon::follow();
+    case "attention": // 加关注
+        ApiForCommon::attention();
         break;
     
-    case "cancelFollow": // 取消关注
-        ApiForCommon::cancelFollow();
+    case "cancelAttention": // 取消关注
+        ApiForCommon::cancelAttention();
         break;
     
     case "getUserFollower": // 获取粉丝列表
