@@ -712,7 +712,7 @@ class ApiForCommon
                     $result1[$i]['joinTime'] = urlencode($joinTime[$i]);
                     $result1[$i]['face'] = urlencode($path . $row['face']);
                     $sId = $row['id'];
-                    Situation::isOption($result1, $i, $sId);
+                    Situation::isOption($result1, $i, $sId);//引用去添加是否赞过等
                     $j = 0;
                     $images = Album::getSituationImageBysId($sId);
                     if ($images === false) {
@@ -947,30 +947,7 @@ class ApiForCommon
                         $result1[$i]['praiseTime'] = urlencode($praiseTime[$i]);
                         $result1[$i]['face'] = urlencode($path . $row['face']);
                         $sId = $row['id'];
-                        if ($_SESSION['uId'] != '') { // 如果登录了,则显示是否赞过等
-                            $bool = User::checkPraise($_SESSION['uId'], $sId);
-                            if ($bool) {
-                                $result1[$i]['isPraise'] = 1; // 赞了
-                            } else {
-                                $result1[$i]['isPraise'] = 0; // 没有赞过
-                            }
-                            $bool = User::checkCollect($_SESSION['uId'], $sId);
-                            if ($bool) {
-                                $result1[$i]['isCollect'] = 1; // 已经收藏
-                            } else {
-                                $result1[$i]['isCollect'] = 0; // 还没有收藏
-                            }
-                            $bool = User::checkJoin($_SESSION['uId'], $sId);
-                            if ($bool) {
-                                $result1[$i]['isJoin'] = 1; // 已经参加
-                            } else {
-                                $result1[$i]['isJoin'] = 0; // 还没有参加
-                            }
-                        } else { // 否则，默认为没有赞过
-                            $result1[$i]['isPraise'] = 0; // 没有赞过
-                            $result1[$i]['isCollect'] = 0; // 还没有收藏
-                            $result1[$i]['isJoin'] = 0; // 还没有参加
-                        }
+                        Situation::isOption($result1, $i, $sId);//引用去添加是否赞过等
                         $j = 0;
                         $images = Album::getSituationImageBysId($sId);
                         if ($images === false) {
@@ -1206,30 +1183,7 @@ class ApiForCommon
                     $result1[$i]['collectTime'] = urlencode($collectTime[$i]);
                     $result1[$i]['face'] = urlencode($path . $row['face']);
                     $sId = $row['id'];
-                    if ($_SESSION['uId'] != '') { // 如果登录了,则显示是否赞过等
-                        $bool = User::checkPraise($_SESSION['uId'], $sId);
-                        if ($bool) {
-                            $result1[$i]['isPraise'] = 1; // 赞了
-                        } else {
-                            $result1[$i]['isPraise'] = 0; // 没有赞过
-                        }
-                        $bool = User::checkCollect($_SESSION['uId'], $sId);
-                        if ($bool) {
-                            $result1[$i]['isCollect'] = 1; // 已经收藏
-                        } else {
-                            $result1[$i]['isCollect'] = 0; // 还没有收藏
-                        }
-                        $bool = User::checkJoin($_SESSION['uId'], $sId);
-                        if ($bool) {
-                            $result1[$i]['isJoin'] = 1; // 已经参加
-                        } else {
-                            $result1[$i]['isJoin'] = 0; // 还没有参加
-                        }
-                    } else { // 否则，默认为没有赞过
-                        $result1[$i]['isPraise'] = 0; // 没有赞过
-                        $result1[$i]['isCollect'] = 0; // 还没有收藏
-                        $result1[$i]['isJoin'] = 0; // 还没有参加
-                    }
+                    Situation::isOption($result1, $i, $sId);//引用去添加是否赞过等
                     $j = 0;
                     $images = Album::getSituationImageBysId($sId);
                     if ($images === false) {
