@@ -1739,7 +1739,7 @@ class ApiForCommon
      */
     public static function emailVerifyForReset()
     {
-        global $result; // 更新userLog日志表要用
+        global $result; //  更新userLog日志表要用
         $emailCode = stripslashes(trim($_GET['emailCode'])) ? stripslashes(trim($_GET['emailCode'])) : '';
         $email = $_SESSION['email'];
         $nowtime = time();
