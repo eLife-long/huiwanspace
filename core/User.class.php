@@ -352,6 +352,11 @@ class User
      */
     public static function checkJoin($uId,$sId){
         global $db_obj;
+        $sql = "select isTransmit from hw_situation where id={$sId}";
+        $row = $db_obj->fetchOne($sql);
+        if($row['isTransmit'] != 0){
+            $sId = $row['isTransmit'];
+        }
         $sql = "select id from hw_group where uId={$uId} and sId={$sId}";
         $row = $db_obj->fetchOne($sql);
         if($row){
@@ -461,6 +466,11 @@ class User
      */
     public static function checkPraise($uId,$sId){
         global $db_obj;
+        $sql = "select isTransmit from hw_situation where id={$sId}";
+        $row = $db_obj->fetchOne($sql);
+        if($row['isTransmit'] != 0){
+            $sId = $row['isTransmit'];
+        }
         $sql = "select id from hw_praise where uId={$uId} and sId={$sId}";
         $row = $db_obj->fetchOne($sql);
         if($row){
@@ -538,6 +548,11 @@ class User
      */
     public static function checkCollect($uId,$sId){
         global $db_obj;
+        $sql = "select isTransmit from hw_situation where id={$sId}";
+        $row = $db_obj->fetchOne($sql);
+        if($row['isTransmit'] != 0){
+            $sId = $row['isTransmit'];
+        }
         $sql = "select id from hw_collection where uId={$uId} and sId={$sId}";
         $row = $db_obj->fetchOne($sql);
         if($row){

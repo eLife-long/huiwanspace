@@ -271,16 +271,50 @@ class Situation
         return $row;
     }
     
-    public static function getNewSituation($lasttime){
-        global $db_obj;
-        $sql="select id from hw_situation where sPubtime>{$lasttime}";
-        $totalNewRows =  $db_obj->getResultNum($sql);//新数据条数
-        $sql="select s.id,s.sTitle,s.sDesc,s.sPubtime,s.sPosition,s.sGatherPosition,s.sSignupBtime,s.sSignupEtime,s.sBtime,s.sEtime,s.sNumber,s.sCurrentNumber,u.username,u.sex,u.face from hw_situation as s join hw_user u on s.uId=u.id where s.sPubtime>{$lasttime} order by s.sPubtime desc";
-        $rows = $db_obj->fetchAll($sql);
-        if(!$rows){
-            return NULL;
+    public static function AddSituationInfo(&$result1,$i,$row2,$path){
+        $result1[$i]['ts_uId'] = urlencode($row2['id']);
+        $result1[$i]['ts_username'] = urlencode($row2['username']);
+        $result1[$i]['ts_sex'] = urlencode($row2['sex']);
+        $result1[$i]['ts_face'] = urlencode($path . $row2['face']);
+        $result1[$i]['id'] = urlencode($row2['id']);
+    }
+    
+    public static function isOption(&$result1,$i,$sId){
+        if ($_SESSION['uId'] != '') { // 如果登录了,则显示是否赞过等
+            $bool = User::checkPraise($_SESSION['uId'], $sId);
+            if ($bool) {
+                $result1[$i]['isPraise'] = 1; // 赞了
+            } else {
+                $result1[$i]['isPraise'] = 0; // 没有赞过
+            }
+            $bool = User::checkCollect($_SESSION['uId'], $sId);
+            if ($bool) {
+                $result1[$i]['isCollect'] = 1; // 已经收藏
+            } else {
+                $result1[$i]['isCollect'] = 0; // 还没有收藏
+            }
+            $bool = User::checkJoin($_SESSION['uId'], $sId);
+            if ($bool) {
+                $result1[$i]['isJoin'] = 1; // 已经参加
+            } else {
+                $result1[$i]['isJoin'] = 0; // 还没有参加
+            }
+        } else { // 否则，默认为没有赞过
+            $result1[$i]['isPraise'] = 0; // 没有赞过
+            $result1[$i]['isCollect'] = 0; // 还没有收藏
+            $result1[$i]['isJoin'] = 0; // 还没有参加
         }
-        return $rows;
+    }
+    
+    public static function isTransmit($sId){
+        global $db_obj;
+        $sql = "select isTransmit from hw_situation where id={$sId}";
+        $row = $db_obj->fetchOne($sql);
+        if($row['isTransmit'] != 0){
+            return $row['isTransmit'];
+        }else{
+            return 0;
+        }
     }
     
 }

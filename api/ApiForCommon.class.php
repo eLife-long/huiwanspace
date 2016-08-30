@@ -83,53 +83,51 @@ class ApiForCommon
         } else {
             $i = 0;
             foreach ($rows as $row) {
-                foreach ($row as $key => $value) {
-                    $result1[$i][$key] = urlencode($value);
+                if ($row['isTransmit'] != 0) { // 表示为转发的活动，返回数据有改变
+                    $row2 = $row;
+                    /*$result1[$i]['ts_uId'] = urlencode($row2['id']);
+                    $result1[$i]['ts_username'] = urlencode($row2['username']);
+                    $result1[$i]['ts_sex'] = urlencode($row2['sex']);
+                    $result1[$i]['ts_face'] = urlencode($path . $row2['face']);
+                    $result1[$i]['id'] = urlencode($row2['id']); */
+                    $result1[$i] = array();
+                    Situation::AddSituationInfo($result1, $i, $row, $path);
+                    $row = Situation::getOneSituation($row['isTransmit']);
                 }
-                $result1[$i]['face'] = urlencode($path . $row['face']);
-                $sId = $row['id'];
-                if($_SESSION['uId'] != ''){//如果登录了,则显示是否赞过等
-                    $bool = User::checkPraise($_SESSION['uId'], $sId);
-                    if($bool){
-                        $result1[$i]['isPraise'] = 1;//赞了
-                    }else{
-                        $result1[$i]['isPraise'] = 0;//没有赞过
+                if ($row) {//活动还存在
+                    foreach ($row as $key => $value) {
+                        $result1[$i][$key] = urlencode($value);
                     }
-                    $bool = User::checkCollect($_SESSION['uId'], $sId);
-                    if($bool){
-                        $result1[$i]['isCollect'] = 1;//已经收藏
-                    }else{
-                        $result1[$i]['isCollect'] = 0;//还没有收藏
+                    $result1[$i]['face'] = urlencode($path . $row['face']);
+                    $sId = $row['id'];
+                    Situation::isOption($result1, $i, $sId);//引用去添加是否赞过等
+                    $j = 0;
+                    $images = Album::getSituationImageBysId($sId);
+                    if ($images === false) {
+                        // $result['status'] = 4;
+                        // $result['message'] = '获取活动图片失败';
+                        $result1[$i]['sImage'] = '';
+                    } elseif ($images === null) {
+                        // $result['status'] = 5;
+                        // $result['message'] = '该活动没有上传图片';
+                        $result1[$i]['sImage'] = '';
+                    } else {
+                        foreach ($images as $image) {
+                    
+                            $result1[$i]['sImage'][$j . 'p'] = urlencode($path . $image['albumPath']);
+                            $j ++;
+                        }
                     }
-                    $bool = User::checkJoin($_SESSION['uId'], $sId);
-                    if($bool){
-                        $result1[$i]['isJoin'] = 1;//已经参加
-                    }else{
-                        $result1[$i]['isJoin'] = 0;//还没有参加
+                }else{//活动被删除
+                    foreach ($row2 as $key => $value) {
+                        $result1[$i][$key] = urlencode($value);
                     }
-                }else{//否则，默认为没有赞过
-                    $result1[$i]['isPraise'] = 0;//没有赞过
-                    $result1[$i]['isCollect'] = 0;//还没有收藏
-                    $result1[$i]['isJoin'] = 0;//还没有参加
+                    $result1[$i]['face'] = urlencode($path . $row['face']);
+                    $result1[$i]['isDel'] = 1;
+                    $sId = $row2['isTransmit'];
+                    Situation::isOption($result1, $i, $sId);
                 }
-                $j = 0;
-                $images = Album::getSituationImageBysId($sId);
-                if ($images === false) {
-                    // $result['status'] = 4;
-                    // $result['message'] = '获取活动图片失败';
-                    $result1[$i]['sImage'] = '';
-                } elseif ($images === null) {
-                    // $result['status'] = 5;
-                    // $result['message'] = '该活动没有上传图片';
-                    $result1[$i]['sImage'] = '';
-                } else {
-                    foreach ($images as $image) {
-                        
-                        $result1[$i]['sImage'][$j . 'p'] = urlencode($path . $image['albumPath']);
-                        $j ++;
-                    }
-                }
-                $i ++;   
+                $i ++;
             }
             $result['status'] = 1;
             $result['message'] = "成功获取{$i}条数据";
@@ -147,6 +145,9 @@ class ApiForCommon
         $sId = $_POST['sId'];
         $row = Situation::getOneSituation($sId);
         if ($row) {
+            if($row['isTransmit'] != 0){//表示为转发的信息
+                $row = Situation::getOneSituation($row['isTransmit']);
+            }
             $site = OUR_SITE;
             $path = "{$site}/uploads/";
             $result['status'] = 1;
@@ -155,29 +156,29 @@ class ApiForCommon
                 $result1[$key] = urlencode($value);
             }
             $result1['face'] = urlencode($path . $row['face']);
-            if($_SESSION['uId'] != ''){//如果登录了,则显示是否赞过等
+            if ($_SESSION['uId'] != '') { // 如果登录了,则显示是否赞过等
                 $bool = User::checkPraise($_SESSION['uId'], $sId);
-                if($bool){
-                    $result1['isPraise'] = 1;//赞了
-                }else{
-                    $result1['isPraise'] = 0;//没有赞过
+                if ($bool) {
+                    $result1['isPraise'] = 1; // 赞了
+                } else {
+                    $result1['isPraise'] = 0; // 没有赞过
                 }
                 $bool = User::checkCollect($_SESSION['uId'], $sId);
-                if($bool){
-                    $result1['isCollect'] = 1;//已经收藏
-                }else{
-                    $result1['isCollect'] = 0;//还没有收藏
+                if ($bool) {
+                    $result1['isCollect'] = 1; // 已经收藏
+                } else {
+                    $result1['isCollect'] = 0; // 还没有收藏
                 }
                 $bool = User::checkJoin($_SESSION['uId'], $sId);
-                if($bool){
-                    $result1['isJoin'] = 1;//已经参加
-                }else{
-                    $result1['isJoin'] = 0;//还没有参加
+                if ($bool) {
+                    $result1['isJoin'] = 1; // 已经参加
+                } else {
+                    $result1['isJoin'] = 0; // 还没有参加
                 }
-            }else{//否则，默认为没有赞过
-                $result1['isPraise'] = 0;//没有赞过
-                $result1['isCollect'] = 0;//还没有收藏
-                $result1['isJoin'] = 0;//还没有参加
+            } else { // 否则，默认为没有赞过
+                $result1['isPraise'] = 0; // 没有赞过
+                $result1['isCollect'] = 0; // 还没有收藏
+                $result1['isJoin'] = 0; // 还没有参加
             }
             // 获取该活动的图片
             $images = Album::getSituationImageBysId($sId);
@@ -219,6 +220,10 @@ class ApiForCommon
         $arr['uId1'] = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($arr['uId1'] !== '') {
             $arr['sId'] = $_POST['sId'];
+            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if($sid){
+                $arr['sId'] = $sid;
+            }
             $arr['content'] = $_POST['content'];
             $arr['time'] = time();
             if ((filter_input(INPUT_POST, 'content', FILTER_CALLBACK, array(
@@ -228,14 +233,14 @@ class ApiForCommon
                 $sqls[2] = "select id from hw_user where id={$arr['uId1']}"; // 要评论人是否存在
                 $sqls[3] = Sql::sqlForInsert('hw_comment', $arr); // 插入评论表
                 $sqls[4] = "update hw_situation set comment=comment+1 where id={$arr['sId']}"; // 更新活动表中的评论数
-                //更新user表中的记录
+                                                                                               // 更新user表中的记录
                 $field = 'lastCommentTime';
                 $lastTime = time();
                 $bool = User::checkIsFirst($arr['uId1'], $field);
-                if($bool){//是当天第一次参加
-                    $sqls[5] = "update hw_user set {$field}={$lastTime},experience=experience+2 where id={$arr['uId1']}";//更新活动表中的评论数
-                }else{
-                    $sqls[5] = "update hw_user set {$field}={$lastTime} where id={$arr['uId1']}";//更新活动表中的评论数
+                if ($bool) { // 是当天第一次参加
+                    $sqls[5] = "update hw_user set {$field}={$lastTime},experience=experience+2 where id={$arr['uId1']}"; // 更新活动表中的评论数
+                } else {
+                    $sqls[5] = "update hw_user set {$field}={$lastTime} where id={$arr['uId1']}"; // 更新活动表中的评论数
                 }
                 $bool = $db_obj->transaction($sqls); // 执行事务
                 if ($bool) {
@@ -243,7 +248,7 @@ class ApiForCommon
                     $result['message'] = '评论成功';
                 } else {
                     $result['status'] = 2;
-                    $result['message'] = '评论失败';
+                    $result['message'] = '评论失败,可能是评论的活动已经被删除';
                 }
             } else {
                 $result['status'] = 3;
@@ -266,6 +271,10 @@ class ApiForCommon
         $arr['uId1'] = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($arr['uId1'] !== '') {
             $arr['sId'] = $_POST['sId'];
+            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if($sid){
+                $arr['sId'] = $sid;
+            }
             $arr['cId'] = $_POST['cId'];
             // $arr['uId1'] = $_POST['uId1'];
             $arr['uId2'] = $_POST['uId2'];
@@ -307,6 +316,10 @@ class ApiForCommon
         global $result; // 更新userLog日志表要用
         global $db_obj;
         $sId = $_POST['sId'];
+        $sid = Situation::isTransmit($sId);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
+        if($sid){
+            $sId = $sid;
+        }
         $site = OUR_SITE;
         $path = "{$site}/uploads/";
         if (is_numeric($sId)) {
@@ -379,7 +392,7 @@ class ApiForCommon
             $arr = Str::filterInput($arr);
             $sqls[1] = "select id from hw_campus where id={$arr['cId']} and sId={$arr['sId']}";
             $sqls[2] = "update hw_user set pubNumber=pubNumber+1 where id={$arr['uId']}";
-            $bool = $db_obj->transaction($sqls); // post的校区是否属于post的学校                                 // 标题0到45个字符，15个汉字(utf-8)
+            $bool = $db_obj->transaction($sqls); // post的校区是否属于post的学校 // 标题0到45个字符，15个汉字(utf-8)
             if ($bool && Str::validate_str($arr['sTitle'], 0, 45) && Str::validate_str($arr['sPosition'], 0, 45) && Str::validate_str($arr['sGatherPosition'], 0, 45) && Str::validate_str($arr['sDesc'], 0, 255 * 3)) {
                 $bool2 = User::pubSituation($arr);
                 if ($bool2) {
@@ -409,10 +422,15 @@ class ApiForCommon
         global $db_obj;
         $arr['uId'] = $_SESSION['uId'] ? $_SESSION['uId'] : '';
         if ($arr['uId'] !== '') { // 已经登录
-            $sql = "select * from hw_situation where id={$_POST['sId']}";
+            $sId = $_POST['sId'];
+            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if($sid){
+                $sId = $sid;
+            }
+            $sql = "select * from hw_situation where id={$arr['sId']}";
             $row = $db_obj->fetchOne($sql);
             $arr['transmitComment'] = $_POST['transmitComment'] ? $_POST['transmitComment'] : ''; // 转发评语
-                                                                                              // 标题0到45个字符，15个汉字(utf-8)
+                                                                                                  // 标题0到45个字符，15个汉字(utf-8)
             if ($row && Str::validate_str($arr['transmitComment'], 0, 255 * 3)) {
                 $arr['sId'] = $row['sId'];
                 $arr['cId'] = $row['cId'];
@@ -427,11 +445,7 @@ class ApiForCommon
                 $arr['sSignupEtime'] = '';
                 $arr['sBtime'] = '';
                 $arr['sEtime'] = '';
-                if ($row['isTransmit'] != 0) {
-                    $arr['isTransmit'] = $row['isTransmit']; // 所转发活动的原始id
-                } else {
-                    $arr['isTransmit'] = $_POST['sId'] ? $_POST['sId'] : ''; // 所转发活动的id
-                }
+                $arr['isTransmit'] = $sId; // 所转发活动的原始id
                 // 过滤输入的字符串
                 $arr = Str::filterInput($arr);
                 $bool = User::transmitSituation($arr);
@@ -455,7 +469,7 @@ class ApiForCommon
 
     /**
      * 用户删除活动
-     * 
+     *
      * @return string
      */
     public static function delSituation()
@@ -466,7 +480,7 @@ class ApiForCommon
         if ($arr['uId'] !== '') {
             $arr['sId'] = $_POST['sId'] ? $_POST['sId'] : '';
             if (is_numeric($arr['sId'])) {
-                $sql = "select id from hw_situation where id={$arr['sId']}"; // 要评论的活动是否存在
+                $sql = "select id from hw_situation where id={$arr['sId']} and uId={$arr['uId']}"; // 该用户是否发布了该活动
                 if ($db_obj->fetchOne($sql)) {
                     $bool = User::delSituation($arr);
                     if ($bool) {
@@ -494,32 +508,33 @@ class ApiForCommon
     /**
      * 检查用户是否参加过该活动,用于活动列表默认显示是否参加过
      */
-    public static function checkJoin(){
+    public static function checkJoin()
+    {
         global $result; // 更新userLog日志表要用
         global $db_obj;
         $uId = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($uId !== '') {
-            $sId = $_POST['sId']?$_POST['sId']:'';
-            if($sId != ''){
+            $sId = $_POST['sId'] ? $_POST['sId'] : '';
+            if ($sId != '') {
                 $bool = User::checkJoin($uId, $sId);
-                if($bool){
+                if ($bool) {
                     $result['status'] = 1;
                     $result['message'] = '您已经参加此活动';
-                }else{
+                } else {
                     $result['status'] = 2;
                     $result['message'] = '您还没有此活动';
                 }
-            }else{
+            } else {
                 $result['status'] = 3;
                 $result['message'] = '活动id错误';
             }
-        }else{
+        } else {
             $result['status'] = 4;
             $result['message'] = '还没有登录,默认显示还没有参加';
         }
         echo Response::json($result);
     }
-    
+
     /**
      * 参加活动
      */
@@ -530,6 +545,10 @@ class ApiForCommon
         $uId = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($uId !== '') {
             $arr['sId'] = $_POST['sId'] ? $_POST['sId'] : NULL;
+            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if($sid){
+                $arr['sId'] = $sid;
+            }
             $arr['uId'] = $_SESSION['uId']; // 当前用户
             $arr['time'] = time();
             $row = Situation::getOneSituation($arr['sId']); // 检查该活动是否存在
@@ -547,7 +566,7 @@ class ApiForCommon
                     }
                 } else {
                     $result['status'] = 3;
-                    $result['message'] = '输入的活动id有误';
+                    $result['message'] = '该活动不存在';
                 }
             } else {
                 $result['status'] = 4;
@@ -570,6 +589,10 @@ class ApiForCommon
         $uId = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($uId !== '') {
             $arr['sId'] = $_POST['sId'] ? $_POST['sId'] : NULL;
+            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if($sid){
+                $arr['sId'] = $sid;
+            }
             $arr['uId'] = $_SESSION['uId']; // 当前用户
             $row = Situation::getOneSituation($arr['sId']); // 检查该活动是否存在
                                                             // 再检查改用户是否已经参加了此活动，已经参加则提示已经参加
@@ -586,7 +609,7 @@ class ApiForCommon
                     }
                 } else {
                     $result['status'] = 3;
-                    $result['message'] = '输入的活动id有误';
+                    $result['message'] = '该活动不存在';
                 }
             } else {
                 $result['status'] = 4;
@@ -689,54 +712,7 @@ class ApiForCommon
                     $result1[$i]['joinTime'] = urlencode($joinTime[$i]);
                     $result1[$i]['face'] = urlencode($path . $row['face']);
                     $sId = $row['id'];
-                    if($_SESSION['uId'] != ''){//如果登录了,则显示是否赞过等
-                        $bool = User::checkPraise($_SESSION['uId'], $sId);
-                        if($bool){
-                            $result1[$i]['isPraise'] = 1;//赞了
-                        }else{
-                            $result1[$i]['isPraise'] = 0;//没有赞过
-                        }
-                        $bool = User::checkCollect($_SESSION['uId'], $sId);
-                        if($bool){
-                            $result1[$i]['isCollect'] = 1;//已经收藏
-                        }else{
-                            $result1[$i]['isCollect'] = 0;//还没有收藏
-                        }
-                        $bool = User::checkJoin($_SESSION['uId'], $sId);
-                        if($bool){
-                            $result1[$i]['isJoin'] = 1;//已经参加
-                        }else{
-                            $result1[$i]['isJoin'] = 0;//还没有参加
-                        }
-                    }else{//否则，默认为没有赞过
-                        $result1[$i]['isPraise'] = 0;//没有赞过
-                        $result1[$i]['isCollect'] = 0;//还没有收藏
-                        $result1[$i]['isJoin'] = 0;//还没有参加
-                    }
-                    if($_SESSION['uId'] != ''){//如果登录了,则显示是否赞过等
-                        $bool = User::checkPraise($_SESSION['uId'], $sId);
-                        if($bool){
-                            $result1[$i]['isPraise'] = 1;//赞了
-                        }else{
-                            $result1[$i]['isPraise'] = 0;//没有赞过
-                        }
-                        $bool = User::checkCollect($_SESSION['uId'], $sId);
-                        if($bool){
-                            $result1[$i]['isCollect'] = 1;//已经收藏
-                        }else{
-                            $result1[$i]['isCollect'] = 0;//还没有收藏
-                        }
-                        $bool = User::checkJoin($_SESSION['uId'], $sId);
-                        if($bool){
-                            $result1[$i]['isJoin'] = 1;//已经参加
-                        }else{
-                            $result1[$i]['isJoin'] = 0;//还没有参加
-                        }
-                    }else{//否则，默认为没有赞过
-                        $result1[$i]['isPraise'] = 0;//没有赞过
-                        $result1[$i]['isCollect'] = 0;//还没有收藏
-                        $result1[$i]['isJoin'] = 0;//还没有参加
-                    }
+                    Situation::isOption($result1, $i, $sId);
                     $j = 0;
                     $images = Album::getSituationImageBysId($sId);
                     if ($images === false) {
@@ -777,6 +753,10 @@ class ApiForCommon
         $arr['uId'] = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($arr['uId'] !== '') {
             $arr['sId'] = $_POST['sId'];
+            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if($sid){
+                $arr['sId'] = $sid;
+            }
             $arr['time'] = time();
             $sql = "select id from hw_situation where id={$arr['sId']}"; // 要赞的活动是否存在
             if ($db_obj->fetchOne($sql)) {
@@ -815,6 +795,10 @@ class ApiForCommon
         $arr['uId'] = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($arr['uId'] !== '') {
             $arr['sId'] = $_POST['sId'];
+            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if($sid){
+                $arr['sId'] = $sid;
+            }
             $sql = "select id from hw_situation where id={$arr['sId']}"; // 要评论的活动是否存在
             if ($db_obj->fetchOne($sql)) {
                 $sql = "select id from hw_praise where sId={$arr['sId']} and uId={$arr['uId']}"; // 是否已经赞了该活动
@@ -845,32 +829,33 @@ class ApiForCommon
     /**
      * 检查用户是否赞过该活动,用于活动列表默认显示是否赞过
      */
-    public static function checkPraise(){
+    public static function checkPraise()
+    {
         global $result; // 更新userLog日志表要用
         global $db_obj;
         $uId = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($uId !== '') {
-            $sId = $_POST['sId']?$_POST['sId']:'';
-            if($sId != ''){
+            $sId = $_POST['sId'] ? $_POST['sId'] : '';
+            if ($sId != '') {
                 $bool = User::checkPraise($uId, $sId);
-                if($bool){
+                if ($bool) {
                     $result['status'] = 1;
                     $result['message'] = '您赞过此活动';
-                }else{
+                } else {
                     $result['status'] = 2;
                     $result['message'] = '您没有赞过此活动';
                 }
-            }else{
+            } else {
                 $result['status'] = 3;
                 $result['message'] = '活动id错误';
             }
-        }else{
+        } else {
             $result['status'] = 4;
             $result['message'] = '还没有登录,默认显示没有赞过';
         }
         echo Response::json($result);
     }
-    
+
     /**
      * 获取用户赞过的活动列表
      */
@@ -962,29 +947,29 @@ class ApiForCommon
                         $result1[$i]['praiseTime'] = urlencode($praiseTime[$i]);
                         $result1[$i]['face'] = urlencode($path . $row['face']);
                         $sId = $row['id'];
-                        if($_SESSION['uId'] != ''){//如果登录了,则显示是否赞过等
+                        if ($_SESSION['uId'] != '') { // 如果登录了,则显示是否赞过等
                             $bool = User::checkPraise($_SESSION['uId'], $sId);
-                            if($bool){
-                                $result1[$i]['isPraise'] = 1;//赞了
-                            }else{
-                                $result1[$i]['isPraise'] = 0;//没有赞过
+                            if ($bool) {
+                                $result1[$i]['isPraise'] = 1; // 赞了
+                            } else {
+                                $result1[$i]['isPraise'] = 0; // 没有赞过
                             }
                             $bool = User::checkCollect($_SESSION['uId'], $sId);
-                            if($bool){
-                                $result1[$i]['isCollect'] = 1;//已经收藏
-                            }else{
-                                $result1[$i]['isCollect'] = 0;//还没有收藏
+                            if ($bool) {
+                                $result1[$i]['isCollect'] = 1; // 已经收藏
+                            } else {
+                                $result1[$i]['isCollect'] = 0; // 还没有收藏
                             }
                             $bool = User::checkJoin($_SESSION['uId'], $sId);
-                            if($bool){
-                                $result1[$i]['isJoin'] = 1;//已经参加
-                            }else{
-                                $result1[$i]['isJoin'] = 0;//还没有参加
+                            if ($bool) {
+                                $result1[$i]['isJoin'] = 1; // 已经参加
+                            } else {
+                                $result1[$i]['isJoin'] = 0; // 还没有参加
                             }
-                        }else{//否则，默认为没有赞过
-                            $result1[$i]['isPraise'] = 0;//没有赞过
-                            $result1[$i]['isCollect'] = 0;//还没有收藏
-                            $result1[$i]['isJoin'] = 0;//还没有参加
+                        } else { // 否则，默认为没有赞过
+                            $result1[$i]['isPraise'] = 0; // 没有赞过
+                            $result1[$i]['isCollect'] = 0; // 还没有收藏
+                            $result1[$i]['isJoin'] = 0; // 还没有参加
                         }
                         $j = 0;
                         $images = Album::getSituationImageBysId($sId);
@@ -1031,6 +1016,10 @@ class ApiForCommon
         $arr['uId'] = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($arr['uId'] !== '') {
             $arr['sId'] = $_POST['sId'] ? $_POST['sId'] : '';
+            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if($sid){
+                $arr['sId'] = $sid;
+            }
             $sql = "select id from hw_situation where id={$arr['sId']}"; // 要评论的活动是否存在
             if ($db_obj->fetchOne($sql)) {
                 $sql = "select id from hw_collection where sId={$arr['sId']} and uId={$arr['uId']}"; // 是否已经收藏了该活动
@@ -1069,6 +1058,10 @@ class ApiForCommon
         $arr['uId'] = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($arr['uId'] !== '') {
             $arr['sId'] = $_POST['sId'] ? $_POST['sId'] : '';
+            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if($sid){
+                $arr['sId'] = $sid;
+            }
             $sql = "select id from hw_situation where id={$arr['sId']}"; // 要评论的活动是否存在
             if ($db_obj->fetchOne($sql)) {
                 $sql = "select id from hw_collection where sId={$arr['sId']} and uId={$arr['uId']}"; // 是否已经收藏了该活动
@@ -1095,30 +1088,31 @@ class ApiForCommon
         }
         echo Response::json($result);
     }
-    
+
     /**
      * 检查用户是否收藏过该活动,用于活动列表默认显示是否收藏过
      */
-    public static function checkCollect(){
+    public static function checkCollect()
+    {
         global $result; // 更新userLog日志表要用
         global $db_obj;
         $uId = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($uId !== '') {
-            $sId = $_POST['sId']?$_POST['sId']:'';
-            if($sId != ''){
+            $sId = $_POST['sId'] ? $_POST['sId'] : '';
+            if ($sId != '') {
                 $bool = User::checkCollect($uId, $sId);
-                if($bool){
+                if ($bool) {
                     $result['status'] = 1;
                     $result['message'] = '您收藏过此活动';
-                }else{
+                } else {
                     $result['status'] = 2;
                     $result['message'] = '您没有收藏过此活动';
                 }
-            }else{
+            } else {
                 $result['status'] = 3;
                 $result['message'] = '活动id错误';
             }
-        }else{
+        } else {
             $result['status'] = 4;
             $result['message'] = '还没有登录,默认显示没有收藏过';
         }
@@ -1212,29 +1206,29 @@ class ApiForCommon
                     $result1[$i]['collectTime'] = urlencode($collectTime[$i]);
                     $result1[$i]['face'] = urlencode($path . $row['face']);
                     $sId = $row['id'];
-                    if($_SESSION['uId'] != ''){//如果登录了,则显示是否赞过等
+                    if ($_SESSION['uId'] != '') { // 如果登录了,则显示是否赞过等
                         $bool = User::checkPraise($_SESSION['uId'], $sId);
-                        if($bool){
-                            $result1[$i]['isPraise'] = 1;//赞了
-                        }else{
-                            $result1[$i]['isPraise'] = 0;//没有赞过
+                        if ($bool) {
+                            $result1[$i]['isPraise'] = 1; // 赞了
+                        } else {
+                            $result1[$i]['isPraise'] = 0; // 没有赞过
                         }
                         $bool = User::checkCollect($_SESSION['uId'], $sId);
-                        if($bool){
-                            $result1[$i]['isCollect'] = 1;//已经收藏
-                        }else{
-                            $result1[$i]['isCollect'] = 0;//还没有收藏
+                        if ($bool) {
+                            $result1[$i]['isCollect'] = 1; // 已经收藏
+                        } else {
+                            $result1[$i]['isCollect'] = 0; // 还没有收藏
                         }
                         $bool = User::checkJoin($_SESSION['uId'], $sId);
-                        if($bool){
-                            $result1[$i]['isJoin'] = 1;//已经参加
-                        }else{
-                            $result1[$i]['isJoin'] = 0;//还没有参加
+                        if ($bool) {
+                            $result1[$i]['isJoin'] = 1; // 已经参加
+                        } else {
+                            $result1[$i]['isJoin'] = 0; // 还没有参加
                         }
-                    }else{//否则，默认为没有赞过
-                        $result1[$i]['isPraise'] = 0;//没有赞过
-                        $result1[$i]['isCollect'] = 0;//还没有收藏
-                        $result1[$i]['isJoin'] = 0;//还没有参加
+                    } else { // 否则，默认为没有赞过
+                        $result1[$i]['isPraise'] = 0; // 没有赞过
+                        $result1[$i]['isCollect'] = 0; // 还没有收藏
+                        $result1[$i]['isJoin'] = 0; // 还没有参加
                     }
                     $j = 0;
                     $images = Album::getSituationImageBysId($sId);
@@ -1829,7 +1823,7 @@ class ApiForCommon
         $arr['password'] = $_POST['password'] ? md5($_POST['password']) : '';
         $loginId = $_POST['loginId'] ? $_POST['loginId'] : '';
         $autoFlag = $_POST['autoFlag'] ? $_POST['autoFlag'] : null;
-        //判断是否已经登录过，通过session
+        // 判断是否已经登录过，通过session
         if ($arr['password'] == '' || $loginId == '') {
             $result['status'] = 10;
             $result['message'] = '请将登录信息填写完';
@@ -1839,42 +1833,42 @@ class ApiForCommon
             if ($checkPhone == 1) { // 存在该用户
                                     // 用户手机登陆
                 $row = User::phoneLogin($arr['phone']);
-                //1判断是否已经登录，更新已经登录的用户表，若已经登录则不用重新登录，2判断是否是当天的第一次登录(更新用户表中的经验值)，更新用户表中的最后登陆时间
+                // 1判断是否已经登录，更新已经登录的用户表，若已经登录则不用重新登录，2判断是否是当天的第一次登录(更新用户表中的经验值)，更新用户表中的最后登陆时间
                 $row1 = User::checkLoginedByuId($row['id']);
-                if($_SESSION['uId'] != $row['id']){//如果session过期，则删除登录表中的记录
+                if ($_SESSION['uId'] != $row['id']) { // 如果session过期，则删除登录表中的记录
                     $sql = "select id from hw_userlogined where uId={$row['id']}";
                     global $db_obj;
                     $row1 = $db_obj->fetchOne($sql);
-                    if($row1){
+                    if ($row1) {
                         $where = "id={$row1['id']}";
                         $table = 'hw_userlogined';
-                        $db_obj->delete($table,$where);
+                        $db_obj->delete($table, $where);
                     }
                 }
                 $row1 = User::checkLoginedByuId($row['id']);
-                if(!$row1){//还没有登录
+                if (! $row1) { // 还没有登录
                     if ($row) {
                         if ($row['activeFlag'] == 1) { // 手机注册的时候已经激活
                             if ($arr['password'] == $row['password']) {
-                                $flag = User::checkIsFirstLogin($row['lastLoginTime']);//检查是否是当天的第一次登录
-                                $bool = User::updateUserLogined($row['id'],$flag);
-                                if($bool){//登录成功
+                                $flag = User::checkIsFirstLogin($row['lastLoginTime']); // 检查是否是当天的第一次登录
+                                $bool = User::updateUserLogined($row['id'], $flag);
+                                if ($bool) { // 登录成功
                                     if ($autoFlag) { // 设置自动登录
                                         setcookie("uId", $row['id'], time() + 7 * 24 * 60 * 60);
-                                        //setcookie("loginId", $row['phone'], time() + 7 * 24 * 60 * 60);
+                                        // setcookie("loginId", $row['phone'], time() + 7 * 24 * 60 * 60);
                                         setcookie("username", $row['username'], time() + 7 * 24 * 60 * 60);
                                     }
-                                    //$_SESSION['loginId'] = $row['phone'];
+                                    // $_SESSION['loginId'] = $row['phone'];
                                     $_SESSION['username'] = $row['username'];
                                     $_SESSION['uId'] = $row['id']; // 用户id
-                    
+                                    
                                     $result['status'] = 1;
                                     $result['sessionId'] = session_id();
                                     $_SESSION['sessionId'] = session_id();
-                    
+                                    
                                     $result['message'] = '登录成功';
                                     // $result['datas'] = $row;看看是否登录成功的要返回个人信息
-                                }else{//登录失败
+                                } else { // 登录失败
                                     $result['status'] = 2;
                                     $result['message'] = '登录失败';
                                 }
@@ -1884,7 +1878,7 @@ class ApiForCommon
                             }
                         }
                     }
-                }else{
+                } else {
                     $result['status'] = 7;
                     $result['message'] = '已经登录过';
                 }
@@ -1897,32 +1891,31 @@ class ApiForCommon
             $checkEmail = Email::checkEmailExist($arr['email']);
             if ($checkEmail == 1) { // 存在该用户
                 $row = User::emailLogin($arr['email']);
-                //1判断是否已经登录，更新已经登录的用户表，若已经登录则不用重新登录，2判断是否是当天的第一次登录(更新用户表中的经验值)，更新用户表中的最后登陆时间
+                // 1判断是否已经登录，更新已经登录的用户表，若已经登录则不用重新登录，2判断是否是当天的第一次登录(更新用户表中的经验值)，更新用户表中的最后登陆时间
                 $row1 = User::checkLoginedByuId($row['id']);
-                if($_SESSION['uId'] != $row['id']){//如果session过期，则删除登录表中的记录
+                if ($_SESSION['uId'] != $row['id']) { // 如果session过期，则删除登录表中的记录
                     $sql = "select id from hw_userlogined where uId={$row['id']}";
                     global $db_obj;
                     $row1 = $db_obj->fetchOne($sql);
-                    if($row1){
+                    if ($row1) {
                         $where = "id={$row1['id']}";
                         $table = 'hw_userlogined';
-                        $db_obj->delete($table,$where);
+                        $db_obj->delete($table, $where);
                     }
                 }
                 $row1 = User::checkLoginedByuId($row['id']);
-                if(!$row1){//还没有登录
+                if (! $row1) { // 还没有登录
                     if ($row['activeFlag'] == 1) { // 已经激活，否则请重新发送激活码
                         if ($arr['password'] == $row['password']) {
-                            $flag = User::checkIsFirstLogin($row['lastLoginTime']);//检查是否是当天的第一次登录
-                            $bool = User::updateUserLogined($row['id'],$flag);
-                            if($bool){
+                            $flag = User::checkIsFirstLogin($row['lastLoginTime']); // 检查是否是当天的第一次登录
+                            $bool = User::updateUserLogined($row['id'], $flag);
+                            if ($bool) {
                                 if ($autoFlag) { // 设置自动登录
                                     setcookie("uId", $row['id'], time() + 7 * 24 * 60 * 60);
-                                    //setcookie("loginId", $row['email'], time() + 7 * 24 * 60 * 60);
+                                    // setcookie("loginId", $row['email'], time() + 7 * 24 * 60 * 60);
                                     setcookie("username", $row['username'], time() + 7 * 24 * 60 * 60);
-                                
                                 }
-                                //$_SESSION['loginId'] = $row['email']; // 登录的邮箱或者手机号
+                                // $_SESSION['loginId'] = $row['email']; // 登录的邮箱或者手机号
                                 $_SESSION['username'] = $row['username'];
                                 $_SESSION['uId'] = $row['id']; // 用户id
                                 $result['status'] = 1;
@@ -1930,7 +1923,7 @@ class ApiForCommon
                                 $_SESSION['sessionId'] = session_id();
                                 $result['message'] = '登录成功';
                                 // print_r($_SESSION);
-                            }else{
+                            } else {
                                 $result['status'] = 2;
                                 $result['message'] = '登录失败';
                             }
@@ -1955,7 +1948,7 @@ class ApiForCommon
                         $result['status'] = 6;
                         $result['message'] = '您的邮箱还没激活，已经发送激活邮箱，请前去您的邮箱激活';
                     }
-                }else{
+                } else {
                     $result['status'] = 7;
                     $result['message'] = '已经登录过';
                 }
@@ -1976,14 +1969,14 @@ class ApiForCommon
     public static function userloginOut()
     {
         global $result; // 更新userLog日志表要用
-        //print_r($_SESSION);
+                        // print_r($_SESSION);
         if ($_SESSION['sessionId'] == session_id()) { // 退出当前sessionId
             
             $bool = User::loginOut();
-            if($bool){
+            if ($bool) {
                 $result['status'] = 1;
                 $result['message'] = '成功退出登录';
-            }else{
+            } else {
                 $result['status'] = 2;
                 $result['message'] = '退出登录失败';
             }
@@ -2002,8 +1995,8 @@ class ApiForCommon
     {
         global $result; // 更新userLog日志表要用
                         // 别的用户也要浏览该用户的个人信息,因此不用登陆的才能看，可读但是不可写
-        $uId = $_SESSION['uId']?$_SESSION['uId']:'';//如果用户已经登录，则从session中获取用户的id
-        if($_POST['uId']){
+        $uId = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
+        if ($_POST['uId']) {
             $uId = $_POST['uId'] ? $_POST['uId'] : '';
         }
         if ($uId) {
@@ -2018,24 +2011,24 @@ class ApiForCommon
                 $site = OUR_SITE;
                 $path = "{$site}/uploads/";
                 $result1['face'] = urlencode($path . $result1['face']);
-                if($_SESSION['uId'] != $uId){//如果的要获取的不是已经登录的用户信息，则销毁邮箱和手机号
-                    unset($result1['email']);//或者赋空值,结合前台考虑
+                if ($_SESSION['uId'] != $uId) { // 如果的要获取的不是已经登录的用户信息，则销毁邮箱和手机号
+                    unset($result1['email']); // 或者赋空值,结合前台考虑
                     unset($result1['phone']);
                 }
-                $exps = User::getAboutExperience($result1['experience']);//转换经验值为等级，得到一个数组
+                $exps = User::getAboutExperience($result1['experience']); // 转换经验值为等级，得到一个数组
                 $result1['level'] = $exps['level'];
                 $result1['remainXP'] = $exps['remain'];
                 $result1['lackXP'] = $exps['lack'];
-                $result1['levelXP'] = $exps['remain']+$exps['lack'];
-                if($_SESSION['uId'] != ''){//如果登录了,则显示是否关注过
+                $result1['levelXP'] = $exps['remain'] + $exps['lack'];
+                if ($_SESSION['uId'] != '') { // 如果登录了,则显示是否关注过
                     $bool = User::checkAttention($_SESSION['uId'], $uId);
-                    if($bool){
-                        $result1['isAttention'] = 1;//关注过
-                    }else{
-                        $result1['isAttention'] = 0;//没有关注过
+                    if ($bool) {
+                        $result1['isAttention'] = 1; // 关注过
+                    } else {
+                        $result1['isAttention'] = 0; // 没有关注过
                     }
-                }else{//否则，默认为没有赞过
-                    $result1['isAttention'] = 0;//没有关注过
+                } else { // 否则，默认为没有赞过
+                    $result1['isAttention'] = 0; // 没有关注过
                 }
                 $result['datas'] = $result1;
             } else {
@@ -2075,8 +2068,8 @@ class ApiForCommon
                     $arr['sex'] = $_POST['sex'];
                     $bool = User::checkUserSex($arr['sex']);
                     if ($bool) {
-                        $arr['about'] = $_POST['about']?$_POST['about']:'暂无介绍';
-                        if(Str::validate_str($arr['about'], 0, 255)){
+                        $arr['about'] = $_POST['about'] ? $_POST['about'] : '暂无介绍';
+                        if (Str::validate_str($arr['about'], 0, 255)) {
                             $uploadFiles = Upload::uploadFile("../uploads");
                             if ($uploadFiles && is_array($uploadFiles)) { // 上传多张只取第一张
                                 $arr['face'] = $uploadFiles[0]['name'];
@@ -2085,7 +2078,7 @@ class ApiForCommon
                                 if ($bool) {
                                     $result['status'] = 1;
                                     $result['message'] = '修改用户信息成功';
-                                    $_SESSION['username'] = $arr['username'];//更改session中的username
+                                    $_SESSION['username'] = $arr['username']; // 更改session中的username
                                 } else {
                                     $result['status'] = 2;
                                     $result['message'] = '修改用户信息失败';
@@ -2096,7 +2089,7 @@ class ApiForCommon
                                 $result['status'] = 3;
                                 $result['message'] = '上传文件错误';
                             }
-                        }else{
+                        } else {
                             $result['status'] = 9;
                             $result['message'] = '简介内容不合法';
                         }
@@ -2178,7 +2171,7 @@ class ApiForCommon
                     if ($bool) {
                         $result['status'] = 1;
                         $result['message'] = '绑定手机号码成功';
-                        //$_SESSION['loginId'] = $phone;
+                        // $_SESSION['loginId'] = $phone;
                     } else {
                         $result['status'] = 2;
                         $result['message'] = '绑定手机号码失败';
@@ -2191,13 +2184,13 @@ class ApiForCommon
                 $result['status'] = 6;
                 $result['message'] = '该手机号码已经被注册';
             }
-        }else {
+        } else {
             $result['status'] = 9;
             $result['message'] = '还未登录，请先登录';
         }
         echo Response::json($result);
     }
-    
+
     /**
      * 绑定邮箱
      */
@@ -2211,19 +2204,19 @@ class ApiForCommon
             $email = $_POST['email'] ? $_POST['email'] : '';
             $checkEmail = Email::checkEmailExist($email);
             if ($checkEmail == 2) { // 返回2表示邮箱格式正确且还未被注册
-                    $_SESSION['emailCode'] = md5($uId . $email . time()); // 创建用于激活识别码
-                    $_SESSION['emailCode_exptime'] = time() + 60 * 60 * 24; // 过期时间为24小时后
-                    $site = OUR_SITE;
-                    $body = "亲爱的" . $username . "：<br/>您正在汇玩空间网执行绑定邮箱的操作。<br/>请点击链接激活您的绑定邮箱。<br/><a href='{$site}/api/webServer.php?action=emailVerifyForBindEmail&email=" . $email . "&emailCode=" . $_SESSION['emailCode'] . "&sessionId=" . session_id() . "' target='_blank'>{$site}/api/webServer.php?action=emailVerifyForBindEmail&email=" . $email . "&emailCode=" . $_SESSION['emailCode'] . "&sessionId=" . session_id() . "</a><br/>如果以上链接无法点击，请将它复制到你的浏览器地址栏中进入访问，该链接24小时内有效。<br/>如果此次激活请求非你本人所发，请忽略本邮件。<br/><p style='text-align:right'>--------  <a href='http://www.huiwanspace.com'>www.huiwanspace.com<br/>汇玩空间网</p>";
-                    $bool = Email::sendEmai($username, $email, $body);
-                    if ($bool) {
-                            $result['status'] = 1;
-                            $result['message'] = '注册成功,邮件已经发送,请前往邮箱进行激活';
-                    } else {
-                        $result['status'] = 2;
-                        $result['message'] = '发送邮件失败,请检查邮箱是否有误';
-                        $_SESSION = array();
-                    }
+                $_SESSION['emailCode'] = md5($uId . $email . time()); // 创建用于激活识别码
+                $_SESSION['emailCode_exptime'] = time() + 60 * 60 * 24; // 过期时间为24小时后
+                $site = OUR_SITE;
+                $body = "亲爱的" . $username . "：<br/>您正在汇玩空间网执行绑定邮箱的操作。<br/>请点击链接激活您的绑定邮箱。<br/><a href='{$site}/api/webServer.php?action=emailVerifyForBindEmail&email=" . $email . "&emailCode=" . $_SESSION['emailCode'] . "&sessionId=" . session_id() . "' target='_blank'>{$site}/api/webServer.php?action=emailVerifyForBindEmail&email=" . $email . "&emailCode=" . $_SESSION['emailCode'] . "&sessionId=" . session_id() . "</a><br/>如果以上链接无法点击，请将它复制到你的浏览器地址栏中进入访问，该链接24小时内有效。<br/>如果此次激活请求非你本人所发，请忽略本邮件。<br/><p style='text-align:right'>--------  <a href='http://www.huiwanspace.com'>www.huiwanspace.com<br/>汇玩空间网</p>";
+                $bool = Email::sendEmai($username, $email, $body);
+                if ($bool) {
+                    $result['status'] = 1;
+                    $result['message'] = '注册成功,邮件已经发送,请前往邮箱进行激活';
+                } else {
+                    $result['status'] = 2;
+                    $result['message'] = '发送邮件失败,请检查邮箱是否有误';
+                    $_SESSION = array();
+                }
             } elseif ($checkEmail == 3) {
                 $result['status'] = 3;
                 $result['message'] = '邮箱格式错误';
@@ -2231,22 +2224,23 @@ class ApiForCommon
                 $result['status'] = 4;
                 $result['message'] = '该邮箱已经被注册';
             }
-        }else {
+        } else {
             $result['status'] = 5;
             $result['message'] = '还未登录，请先登录';
         }
         echo Response::json($result);
     }
-    
+
     /**
      * 验证绑定邮箱，执行更新用户表中的邮箱字段
      */
-    public static function emailVerifyForBindEmail(){
+    public static function emailVerifyForBindEmail()
+    {
         global $result; // 更新userLog日志表要用
         global $db_obj;
         $emailCode = stripslashes(trim($_GET['emailCode'])) ? stripslashes(trim($_GET['emailCode'])) : '';
         $email = stripslashes(trim($_GET['email'])) ? stripslashes(trim($_GET['email'])) : '';
-        $uId =  $_SESSION['uId'];
+        $uId = $_SESSION['uId'];
         $nowtime = time();
         // print_r($_SESSION)
         if ($nowtime > $_SESSION['emailCode_exptime'] || $_SESSION['emailCode'] == '') {
@@ -2254,22 +2248,21 @@ class ApiForCommon
             $result['status'] = 4;
             $result['message'] = '激活码过期';
         } elseif ($emailCode != $_SESSION['emailCode'] || $_SESSION['emailCode'] == '') {
-        
+            
             $result['status'] = 3; // 激活码错误
             $result['message'] = '激活码失效';
         } else {
             $bool = User::bindEmail($uId, $email);
-            if($bool){
-                $result['status'] = 1; 
+            if ($bool) {
+                $result['status'] = 1;
                 $result['message'] = '激活成功';
-            }else{
+            } else {
                 $result['status'] = 2;
                 $result['message'] = '激活失败';
             }
         }
         echo Response::json($result);
     }
-    
 
     /**
      * 用户通过手机号码注册
