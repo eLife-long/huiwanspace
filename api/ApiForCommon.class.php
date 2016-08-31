@@ -93,16 +93,50 @@ class ApiForCommon
                     $result1[$i] = array();
                     Situation::AddSituationInfo($result1, $i, $row, $path);
                     $row = Situation::getOneSituation($row['isTransmit']);
-                }
-                if ($row) {//活动还存在
+                    if($row){
+                        foreach ($row as $key => $value) {
+                            $result1[$i][$key] = urlencode($value);
+                        }
+                        $result1[$i]['face'] = urlencode($path . $row['face']);
+                        Situation::ChangeSituationInfo($result1, $i);
+                        $result1[$i]['id'] = $row2['id'];
+                        $result1[$i]['sPubtime'] = $row2['sPubtime'];//不这样排序出错
+                        $result1[$i]['isDel'] = 0;
+                        Situation::isOption($result1, $i, $row['id']);//引用去添加是否赞过等
+                        $j = 0;
+                        $images = Album::getSituationImageBysId($row['id']);
+                        if ($images === false) {
+                            // $result['status'] = 4;
+                            // $result['message'] = '获取活动图片失败';
+                            $result1[$i]['sImage'] = '';
+                        } elseif ($images === null) {
+                            // $result['status'] = 5;
+                            // $result['message'] = '该活动没有上传图片';
+                            $result1[$i]['sImage'] = '';
+                        } else {
+                            foreach ($images as $image) {
+                        
+                                $result1[$i]['sImage'][$j . 'p'] = urlencode($path . $image['albumPath']);
+                                $j ++;
+                            }
+                        }
+                    }else{//活动被删除
+                        foreach ($row2 as $key => $value) {
+                            $result1[$i][$key] = urlencode($value);
+                        }
+                        $result1[$i]['face'] = urlencode($path . $row['face']);
+                        Situation::ChangeSituationInfo($result1, $i);
+                        $result1[$i]['isDel'] = 1;
+                        Situation::isOption($result1, $i, $row['id']);
+                    }
+                }else{//不是转发
                     foreach ($row as $key => $value) {
                         $result1[$i][$key] = urlencode($value);
                     }
                     $result1[$i]['face'] = urlencode($path . $row['face']);
-                    $sId = $row['id'];
-                    Situation::isOption($result1, $i, $sId);//引用去添加是否赞过等
+                    Situation::isOption($result1, $i, $row['id']);//引用去添加是否赞过等
                     $j = 0;
-                    $images = Album::getSituationImageBysId($sId);
+                    $images = Album::getSituationImageBysId($row['id']);
                     if ($images === false) {
                         // $result['status'] = 4;
                         // $result['message'] = '获取活动图片失败';
@@ -118,14 +152,6 @@ class ApiForCommon
                             $j ++;
                         }
                     }
-                }else{//活动被删除
-                    foreach ($row2 as $key => $value) {
-                        $result1[$i][$key] = urlencode($value);
-                    }
-                    $result1[$i]['face'] = urlencode($path . $row['face']);
-                    $result1[$i]['isDel'] = 1;
-                    $sId = $row2['isTransmit'];
-                    Situation::isOption($result1, $i, $sId);
                 }
                 $i ++;
             }
@@ -556,13 +582,18 @@ class ApiForCommon
             $check = User::checkUserJoin($arr['sId'], $arr['uId']);
             if (! $check) {
                 if ($row) {
-                    $bool = User::join($arr);
-                    if ($bool) {
-                        $result['status'] = 1;
-                        $result['message'] = '参加活动成功';
-                    } else {
-                        $result['status'] = 2;
-                        $result['message'] = '参加活动失败';
+                    if($row['sCurrentNumber'] < $row['sNumber']){//看看是否参加的人数已经达到了上限
+                        $bool = User::join($arr);
+                        if ($bool) {
+                            $result['status'] = 1;
+                            $result['message'] = '参加活动成功';
+                        } else {
+                            $result['status'] = 2;
+                            $result['message'] = '参加活动失败';
+                        }
+                    }else{
+                        $result['status'] = 6;
+                        $result['message'] = '人数达到上限，可以联系楼主增加名额';
                     }
                 } else {
                     $result['status'] = 3;
@@ -1739,7 +1770,7 @@ class ApiForCommon
      */
     public static function emailVerifyForReset()
     {
-        global $result; //  更新userLog日志表要用
+        global $result; //  1更新userLog日志表要用
         $emailCode = stripslashes(trim($_GET['emailCode'])) ? stripslashes(trim($_GET['emailCode'])) : '';
         $email = $_SESSION['email'];
         $nowtime = time();
@@ -2014,11 +2045,14 @@ class ApiForCommon
                 $result['status'] = 6;
                 $result['message'] = '该用户名已经存在';
             } else { // 该用户名可以使用
+                $arr['pId'] = $_POST['pId'];
                 $arr['sId'] = $_POST['sId'];
                 $arr['cId'] = $_POST['cId'];
                 $sql = "select id from hw_campus where id={$arr['cId']} and sId={$arr['sId']}";
                 $row = $db_obj->fetchOne($sql);
-                if ($row) {
+                $sql = "select id from hw_school where id={$arr['sId']} and sId={$arr['pId']}";
+                $row1 = $db_obj->fetchOne($sql);
+                if ($row && $row1) {
                     $arr['sex'] = $_POST['sex'];
                     $bool = User::checkUserSex($arr['sex']);
                     if ($bool) {
@@ -2053,7 +2087,7 @@ class ApiForCommon
                     }
                 } else {
                     $result['status'] = 5;
-                    $result['message'] = '该校区和学校不匹配';
+                    $result['message'] = '该校区,学校,省份不匹配';
                 }
             }
         } else {

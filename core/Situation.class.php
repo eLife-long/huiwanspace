@@ -271,14 +271,45 @@ class Situation
         return $row;
     }
     
+    /**
+     * 为转发的活动添加用户的信息
+     * @param unknown $result1
+     * @param unknown $i
+     * @param unknown $row2
+     * @param unknown $path
+     */
     public static function AddSituationInfo(&$result1,$i,$row2,$path){
-        $result1[$i]['ts_uId'] = urlencode($row2['id']);
-        $result1[$i]['ts_username'] = urlencode($row2['username']);
-        $result1[$i]['ts_sex'] = urlencode($row2['sex']);
-        $result1[$i]['ts_face'] = urlencode($path . $row2['face']);
-        $result1[$i]['id'] = urlencode($row2['id']);
+        $result1[$i]['init_uId'] = urlencode($row2['uId']);
+        $result1[$i]['init_username'] = urlencode($row2['username']);
+        $result1[$i]['init_sex'] = urlencode($row2['sex']);
+        $result1[$i]['init_face'] = urlencode($path . $row2['face']);
+        //$result1[$i]['id'] = urlencode($row2['id']);
     }
     
+    public static function ChangeSituationInfo(&$result1,$i){
+        $temp = $result1[$i]['init_uId'];
+        $result1[$i]['init_uId'] = $result1[$i]['uId'];
+        $result1[$i]['uId'] = $temp;
+        
+        $temp = $result1[$i]['init_username'];
+        $result1[$i]['init_username'] = $result1[$i]['username'];
+        $result1[$i]['username'] = $temp;
+        
+        $temp = $result1[$i]['init_sex'];
+        $result1[$i]['init_sex'] = $result1[$i]['sex'];
+        $result1[$i]['sex'] = $temp;
+        
+        $temp = $result1[$i]['init_face'];
+        $result1[$i]['init_face'] = $result1[$i]['face'];
+        $result1[$i]['face'] = $temp;
+    }
+    
+    /**
+     * 判断是否已经赞过等
+     * @param unknown $result1
+     * @param unknown $i
+     * @param unknown $sId
+     */
     public static function isOption(&$result1,$i,$sId){
         if ($_SESSION['uId'] != '') { // 如果登录了,则显示是否赞过等
             $bool = User::checkPraise($_SESSION['uId'], $sId);
@@ -306,6 +337,11 @@ class Situation
         }
     }
     
+    /**
+     * 判断是否是转发的活动，是则返回原来的活动id
+     * @param unknown $sId
+     * @return //多类型？？？|number
+     */
     public static function isTransmit($sId){
         global $db_obj;
         $sql = "select isTransmit from hw_situation where id={$sId}";
