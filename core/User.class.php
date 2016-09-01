@@ -77,12 +77,18 @@ class User
         global $db_obj;
         $sql = "select * from hw_user where id={$uId}";
         $row = $db_obj->fetchOne($sql);
+        
         $sql = "select sName from hw_school where id={$row['sId']}";
         $row1 = $db_obj->fetchOne($sql);
         $row['sName'] = $row1['sName']?$row1['sName']:'待完善';
+        
         $sql = "select cName from hw_campus where id={$row['cId']}";
         $row2 = $db_obj->fetchOne($sql);
         $row['cName'] =$row2['cName']?$row2['cName']:'待完善';
+        
+        $sql = "select pName from hw_province where id={$row['pId']}";
+        $row3 = $db_obj->fetchOne($sql);
+        $row['pName'] =$row3['pName']?$row3['pName']:'待完善';
         return $row;
     }
     

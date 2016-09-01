@@ -21,7 +21,7 @@ class Common
         $arr['uId'] = $_SESSION['uId'] ? $_SESSION['uId'] : null; //登录的为用户的id
 
         if (! $arr['uId']) {//未登录的记录sessionId
-            $arr['loginId'] = session_id() ? session_id() : null;
+            $arr['uId'] = session_id() ? session_id() : null;
         }
         $arr['userIp'] = $_SERVER["REMOTE_ADDR"]; // 用户ip
         $arr['username'] = $_SESSION['username']; // 用户名

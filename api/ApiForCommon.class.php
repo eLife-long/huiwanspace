@@ -100,6 +100,7 @@ class ApiForCommon
                         $result1[$i]['face'] = urlencode($path . $row['face']);
                         Situation::ChangeSituationInfo($result1, $i);
                         $result1[$i]['id'] = $row2['id'];
+			$result1[$i]['isTransmit'] = $row2['isTransmit'];
                         $result1[$i]['sPubtime'] = $row2['sPubtime'];//不这样排序出错
                         $result1[$i]['isDel'] = 0;
                         Situation::isOption($result1, $i, $row['id']);//引用去添加是否赞过等
@@ -124,10 +125,13 @@ class ApiForCommon
                         foreach ($row2 as $key => $value) {
                             $result1[$i][$key] = urlencode($value);
                         }
-                        $result1[$i]['face'] = urlencode($path . $row['face']);
-                        Situation::ChangeSituationInfo($result1, $i);
+                        $result1[$i]['face'] = urlencode($path . $row2['face']);
+                        //Situation::ChangeSituationInfo($result1, $i);
+                        $result1[$i]['id'] = $row2['id'];
+                        $result1[$i]['sPubtime'] = $row2['sPubtime'];//不这样排序出错
                         $result1[$i]['isDel'] = 1;
-                        Situation::isOption($result1, $i, $row['id']);
+			$result1[$i]['sImage'] = '';//不返回这个app会显示不出来
+                         Situation::isOption($result1, $i, $row2['id']);
                     }
                 }else{//不是转发
                     foreach ($row as $key => $value) {
