@@ -286,6 +286,11 @@ class Situation
         //$result1[$i]['id'] = urlencode($row2['id']);
     }
     
+    /**
+     * 交换发布人和转发人
+     * @param unknown $result1
+     * @param unknown $i
+     */
     public static function ChangeSituationInfo(&$result1,$i){
         $temp = $result1[$i]['init_uId'];
         $result1[$i]['init_uId'] = $result1[$i]['uId'];
@@ -330,10 +335,17 @@ class Situation
             } else {
                 $result1[$i]['isJoin'] = 0; // 还没有参加
             }
+            $bool = User::checkTransmit($_SESSION['uId'], $sId);
+            if ($bool) {
+                $result1[$i]['yesTransmit'] = 1; // 已经转发
+            } else {
+                $result1[$i]['yesTransmit'] = 0; // 还没有转发
+            }
         } else { // 否则，默认为没有赞过
             $result1[$i]['isPraise'] = 0; // 没有赞过
             $result1[$i]['isCollect'] = 0; // 还没有收藏
             $result1[$i]['isJoin'] = 0; // 还没有参加
+            $result1[$i]['yesTransmit'] = 0; // 还没有转发
         }
     }
     

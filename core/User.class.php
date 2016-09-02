@@ -320,6 +320,23 @@ class User
     }
     
     /**
+     * 检查用户是否赞过此活动
+     * @param int $uId
+     * @param int $sId
+     * @return boolean
+     */
+    public static function checkTransmit($uId,$sId){
+        global $db_obj;
+        $sql = "select id from hw_situation where uId={$uId} and isTransmit={$sId}";
+        $row = $db_obj->fetchOne($sql);
+        if($row){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    /**
      * 用户删除活动
      * @return string
      */

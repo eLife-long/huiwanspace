@@ -78,3 +78,16 @@ response body = <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
     </TemplateSMS>
 </Response>
 
+request body = <TemplateSMS>
+                    <to>15754301944</to> 
+                    <appId>8aaf07085635aae501564e5d7ce90edc</appId>
+                    <templateId>1</templateId>
+                    <datas><data>2671</data><data>1440</data></datas>
+                  </TemplateSMS>
+request url = https://app.cloopen.com:8883/2013-12-26/Accounts/8aaf07085635aae501564e5d7c340ed6/SMS/TemplateSMS?sig=A19F992B51B9AF0EFEE83368F0ECF2AB
+response body = <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Response>
+    <statusCode>112310</statusCode>
+    <statusMsg>【短信】应用未上线，模板短信接收号码外呼受限</statusMsg>
+</Response>
+

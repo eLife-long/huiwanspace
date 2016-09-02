@@ -22,31 +22,31 @@ class ApiForCommon
         $cIdBy = $cId ? "s.cId={$cId}" : '';
         $sId = $_POST['sId'] ? $_POST['sId'] : '';
         $sIdBy = $sId ? "s.sId={$sId}" : '';
-        $firstTime = $_POST['firstTime'] ? $_POST['firstTime'] : ''; // 获取更新的记录
-        $firstTimeBy = $firstTime ? "s.sPubtime>$firstTime" : '';
+        $firstId = $_POST['firstId'] ? $_POST['firstId'] : ''; // 获取更新的记录
+        $firstIdBy = $firstId ? "s.Id>$firstId" : '';
         
-        $lastTime = $_POST['lastTime'] ? $_POST['lastTime'] : ''; // 获取历史的记录
-        $lastTimeBy = $lastTime ? "s.sPubtime<$lastTime" : '';
+        $lastId = $_POST['lastId'] ? $_POST['lastId'] : ''; // 获取历史的记录
+        $lastIdBy = $lastId ? "s.Id<$lastId" : '';
         $order = $_POST['order'] ? $_POST['order'] : 'sPubtime';
-        if ($firstTimeBy) { // 获取最新消息则时间倒序分页传
+        if ($firstIdBy) { // 获取最新消息则时间倒序分页传
             $type = $_POST['type'] ? $_POST['type'] : 'asc';
         } else { // 加载历史记录则时间正序分页传
             $type = $_POST['type'] ? $_POST['type'] : 'desc';
         }
         $type = $type ? $type : 'desc';
-        // $orderBy=$firstTime?"order by s.{$order} {$type}":"order by s.{$order} {$type}";
+        // $orderBy=$firstId?"order by s.{$order} {$type}":"order by s.{$order} {$type}";
         $orderBy = "order by s.{$order} {$type}";
         $keywords = $_POST['keywords'] ? $_POST['keywords'] : '';
         $keywordsBy = $keywords ? "(s.`sTitle` like '%{$keywords}%' OR s.`sPosition` like '%{$keywords}%' OR u.`username` like '%{$keywords}%')" : null;
         $where = '';
-        if ($firstTimeBy || $lastTimeBy || $keywordsBy || $sIdBy || $cIdBy || $uIdBy) { // where不为空
+        if ($firstIdBy || $lastIdBy || $keywordsBy || $sIdBy || $cIdBy || $uIdBy) { // where不为空
             $where = "where ";
         }
-        if ($firstTimeBy) {
-            $where1[] = $firstTimeBy;
+        if ($firstIdBy) {
+            $where1[] = $firstIdBy;
         }
-        if ($lastTimeBy) {
-            $where1[] = $lastTimeBy;
+        if ($lastIdBy) {
+            $where1[] = $lastIdBy;
         }
         if ($keywordsBy) {
             $where1[] = $keywordsBy;
@@ -85,25 +85,27 @@ class ApiForCommon
             foreach ($rows as $row) {
                 if ($row['isTransmit'] != 0) { // 表示为转发的活动，返回数据有改变
                     $row2 = $row;
-                    /*$result1[$i]['ts_uId'] = urlencode($row2['id']);
-                    $result1[$i]['ts_username'] = urlencode($row2['username']);
-                    $result1[$i]['ts_sex'] = urlencode($row2['sex']);
-                    $result1[$i]['ts_face'] = urlencode($path . $row2['face']);
-                    $result1[$i]['id'] = urlencode($row2['id']); */
+                    /*
+                     * $result1[$i]['ts_uId'] = urlencode($row2['id']);
+                     * $result1[$i]['ts_username'] = urlencode($row2['username']);
+                     * $result1[$i]['ts_sex'] = urlencode($row2['sex']);
+                     * $result1[$i]['ts_face'] = urlencode($path . $row2['face']);
+                     * $result1[$i]['id'] = urlencode($row2['id']);
+                     */
                     $result1[$i] = array();
                     Situation::AddSituationInfo($result1, $i, $row, $path);
                     $row = Situation::getOneSituation($row['isTransmit']);
-                    if($row){
+                    if ($row) {
                         foreach ($row as $key => $value) {
                             $result1[$i][$key] = urlencode($value);
                         }
                         $result1[$i]['face'] = urlencode($path . $row['face']);
                         Situation::ChangeSituationInfo($result1, $i);
                         $result1[$i]['id'] = $row2['id'];
-			$result1[$i]['isTransmit'] = $row2['isTransmit'];
-                        $result1[$i]['sPubtime'] = $row2['sPubtime'];//不这样排序出错
+                        $result1[$i]['isTransmit'] = $row2['isTransmit'];
+                        $result1[$i]['sPubtime'] = $row2['sPubtime']; // 不这样排序出错
                         $result1[$i]['isDel'] = 0;
-                        Situation::isOption($result1, $i, $row['id']);//引用去添加是否赞过等
+                        Situation::isOption($result1, $i, $row['id']); // 引用去添加是否赞过等
                         $j = 0;
                         $images = Album::getSituationImageBysId($row['id']);
                         if ($images === false) {
@@ -116,29 +118,29 @@ class ApiForCommon
                             $result1[$i]['sImage'] = '';
                         } else {
                             foreach ($images as $image) {
-                        
+                                
                                 $result1[$i]['sImage'][$j . 'p'] = urlencode($path . $image['albumPath']);
                                 $j ++;
                             }
                         }
-                    }else{//活动被删除
+                    } else { // 活动被删除
                         foreach ($row2 as $key => $value) {
                             $result1[$i][$key] = urlencode($value);
                         }
                         $result1[$i]['face'] = urlencode($path . $row2['face']);
-                        //Situation::ChangeSituationInfo($result1, $i);
+                        // Situation::ChangeSituationInfo($result1, $i);
                         $result1[$i]['id'] = $row2['id'];
-                        $result1[$i]['sPubtime'] = $row2['sPubtime'];//不这样排序出错
+                        $result1[$i]['sPubtime'] = $row2['sPubtime']; // 不这样排序出错
                         $result1[$i]['isDel'] = 1;
-			$result1[$i]['sImage'] = '';//不返回这个app会显示不出来
-                         Situation::isOption($result1, $i, $row2['id']);
+                        $result1[$i]['sImage'] = ''; // 不返回这个app会显示不出来
+                        Situation::isOption($result1, $i, $row2['id']);
                     }
-                }else{//不是转发
+                } else { // 不是转发
                     foreach ($row as $key => $value) {
                         $result1[$i][$key] = urlencode($value);
                     }
                     $result1[$i]['face'] = urlencode($path . $row['face']);
-                    Situation::isOption($result1, $i, $row['id']);//引用去添加是否赞过等
+                    Situation::isOption($result1, $i, $row['id']); // 引用去添加是否赞过等
                     $j = 0;
                     $images = Album::getSituationImageBysId($row['id']);
                     if ($images === false) {
@@ -151,7 +153,7 @@ class ApiForCommon
                         $result1[$i]['sImage'] = '';
                     } else {
                         foreach ($images as $image) {
-                    
+                            
                             $result1[$i]['sImage'][$j . 'p'] = urlencode($path . $image['albumPath']);
                             $j ++;
                         }
@@ -175,7 +177,7 @@ class ApiForCommon
         $sId = $_POST['sId'];
         $row = Situation::getOneSituation($sId);
         if ($row) {
-            if($row['isTransmit'] != 0){//表示为转发的信息
+            if ($row['isTransmit'] != 0) { // 表示为转发的信息
                 $row = Situation::getOneSituation($row['isTransmit']);
             }
             $site = OUR_SITE;
@@ -250,8 +252,8 @@ class ApiForCommon
         $arr['uId1'] = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($arr['uId1'] !== '') {
             $arr['sId'] = $_POST['sId'];
-            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
-            if($sid){
+            $sid = Situation::isTransmit($arr['sId']); // 是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if ($sid) {
                 $arr['sId'] = $sid;
             }
             $arr['content'] = $_POST['content'];
@@ -265,12 +267,12 @@ class ApiForCommon
                 $sqls[4] = "update hw_situation set comment=comment+1 where id={$arr['sId']}"; // 更新活动表中的评论数
                                                                                                // 更新user表中的记录
                 $field = 'lastCommentTime';
-                $lastTime = time();
+                $lastId = time();
                 $bool = User::checkIsFirst($arr['uId1'], $field);
                 if ($bool) { // 是当天第一次参加
-                    $sqls[5] = "update hw_user set {$field}={$lastTime},experience=experience+2 where id={$arr['uId1']}"; // 更新活动表中的评论数
+                    $sqls[5] = "update hw_user set {$field}={$lastId},experience=experience+2 where id={$arr['uId1']}"; // 更新活动表中的评论数
                 } else {
-                    $sqls[5] = "update hw_user set {$field}={$lastTime} where id={$arr['uId1']}"; // 更新活动表中的评论数
+                    $sqls[5] = "update hw_user set {$field}={$lastId} where id={$arr['uId1']}"; // 更新活动表中的评论数
                 }
                 $bool = $db_obj->transaction($sqls); // 执行事务
                 if ($bool) {
@@ -301,8 +303,8 @@ class ApiForCommon
         $arr['uId1'] = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($arr['uId1'] !== '') {
             $arr['sId'] = $_POST['sId'];
-            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
-            if($sid){
+            $sid = Situation::isTransmit($arr['sId']); // 是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if ($sid) {
                 $arr['sId'] = $sid;
             }
             $arr['cId'] = $_POST['cId'];
@@ -346,8 +348,8 @@ class ApiForCommon
         global $result; // 更新userLog日志表要用
         global $db_obj;
         $sId = $_POST['sId'];
-        $sid = Situation::isTransmit($sId);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
-        if($sid){
+        $sid = Situation::isTransmit($sId); // 是否是转发的活动，是则把上传的活动id换成原来的活动的id
+        if ($sid) {
             $sId = $sid;
         }
         $site = OUR_SITE;
@@ -453,15 +455,22 @@ class ApiForCommon
         $arr['uId'] = $_SESSION['uId'] ? $_SESSION['uId'] : '';
         if ($arr['uId'] !== '') { // 已经登录
             $sId = $_POST['sId'];
-            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
-            if($sid){
+            $sid = Situation::isTransmit($sId); // 是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if ($sid) {
                 $sId = $sid;
             }
-            $sql = "select * from hw_situation where id={$arr['sId']}";
+            $sql = "select * from hw_situation where id={$sId}";
             $row = $db_obj->fetchOne($sql);
             $arr['transmitComment'] = $_POST['transmitComment'] ? $_POST['transmitComment'] : ''; // 转发评语
                                                                                                   // 标题0到45个字符，15个汉字(utf-8)
-            if ($row && Str::validate_str($arr['transmitComment'], 0, 255 * 3)) {
+            $bool = User::checkTransmit($arr['uId'], $sId);
+            if ($bool) {
+                $result['status'] = 5;
+                $result['message'] = '您已经转发过此活动';
+            } elseif (! $row) {
+                $result['status'] = 4;
+                $result['message'] = '你要转发的活动不存在';
+            } elseif ($row && Str::validate_str($arr['transmitComment'], 0, 255 * 3)) {
                 $arr['sId'] = $row['sId'];
                 $arr['cId'] = $row['cId'];
                 $arr['sTitle'] = $row['sTitle'];
@@ -476,7 +485,7 @@ class ApiForCommon
                 $arr['sBtime'] = '';
                 $arr['sEtime'] = '';
                 $arr['isTransmit'] = $sId; // 所转发活动的原始id
-                // 过滤输入的字符串
+                                           // 过滤输入的字符串
                 $arr = Str::filterInput($arr);
                 $bool = User::transmitSituation($arr);
                 if ($bool) {
@@ -488,10 +497,10 @@ class ApiForCommon
                 }
             } else {
                 $result['status'] = 3;
-                $result['message'] = '你要转发的活动不存在';
+                $result['message'] = '请输入合法内容';
             }
         } else {
-            $result['status'] = 4;
+            $result['status'] = 6;
             $result['message'] = '请先登录';
         }
         echo Response::json($result);
@@ -575,8 +584,8 @@ class ApiForCommon
         $uId = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($uId !== '') {
             $arr['sId'] = $_POST['sId'] ? $_POST['sId'] : NULL;
-            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
-            if($sid){
+            $sid = Situation::isTransmit($arr['sId']); // 是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if ($sid) {
                 $arr['sId'] = $sid;
             }
             $arr['uId'] = $_SESSION['uId']; // 当前用户
@@ -586,7 +595,7 @@ class ApiForCommon
             $check = User::checkUserJoin($arr['sId'], $arr['uId']);
             if (! $check) {
                 if ($row) {
-                    if($row['sCurrentNumber'] < $row['sNumber']){//看看是否参加的人数已经达到了上限
+                    if ($row['sCurrentNumber'] < $row['sNumber']) { // 看看是否参加的人数已经达到了上限
                         $bool = User::join($arr);
                         if ($bool) {
                             $result['status'] = 1;
@@ -595,7 +604,7 @@ class ApiForCommon
                             $result['status'] = 2;
                             $result['message'] = '参加活动失败';
                         }
-                    }else{
+                    } else {
                         $result['status'] = 6;
                         $result['message'] = '人数达到上限，可以联系楼主增加名额';
                     }
@@ -624,8 +633,8 @@ class ApiForCommon
         $uId = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($uId !== '') {
             $arr['sId'] = $_POST['sId'] ? $_POST['sId'] : NULL;
-            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
-            if($sid){
+            $sid = Situation::isTransmit($arr['sId']); // 是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if ($sid) {
                 $arr['sId'] = $sid;
             }
             $arr['uId'] = $_SESSION['uId']; // 当前用户
@@ -680,31 +689,31 @@ class ApiForCommon
             $cIdBy = $cId ? "s.cId={$cId}" : '';
             $sId = $_POST['sId'] ? $_POST['sId'] : '';
             $sIdBy = $sId ? "s.sId={$sId}" : '';
-            $firstTime = $_POST['firstTime'] ? $_POST['firstTime'] : ''; // 获取更新的记录
-            $firstTimeBy = $firstTime ? "s.sPubtime>$firstTime" : '';
+            $firstId = $_POST['firstId'] ? $_POST['firstId'] : ''; // 获取更新的记录
+            $firstIdBy = $firstId ? "s.Id>$firstId" : '';
             
-            $lastTime = $_POST['lastTime'] ? $_POST['lastTime'] : ''; // 获取历史的记录
-            $lastTimeBy = $lastTime ? "s.sPubtime<$lastTime" : '';
+            $lastId = $_POST['lastId'] ? $_POST['lastId'] : ''; // 获取历史的记录
+            $lastIdBy = $lastId ? "s.Id<$lastId" : '';
             $order = $_POST['order'] ? $_POST['order'] : 'sPubtime';
-            if ($firstTimeBy) { // 获取最新消息则时间倒序分页传
+            if ($firstIdBy) { // 获取最新消息则时间倒序分页传
                 $type = $_POST['type'] ? $_POST['type'] : 'asc';
             } else { // 加载历史记录则时间正序分页传
                 $type = $_POST['type'] ? $_POST['type'] : 'desc';
             }
             $type = $type ? $type : 'desc';
-            // $orderBy=$firstTime?"order by s.{$order} {$type}":"order by s.{$order} {$type}";
+            // $orderBy=$firstId?"order by s.{$order} {$type}":"order by s.{$order} {$type}";
             $orderBy = "order by s.{$order} {$type}";
             $keywords = $_POST['keywords'] ? $_POST['keywords'] : '';
             $keywordsBy = $keywords ? "(s.`sTitle` like '%{$keywords}%' OR s.`sPosition` like '%{$keywords}%' OR u.`username` like '%{$keywords}%')" : null;
             $where = '';
-            if ($firstTimeBy || $lastTimeBy || $keywordsBy || $sIdBy || $cIdBy || $arangBy) { // where不为空
+            if ($firstIdBy || $lastIdBy || $keywordsBy || $sIdBy || $cIdBy || $arangBy) { // where不为空
                 $where = "where ";
             }
-            if ($firstTimeBy) {
-                $where1[] = $firstTimeBy;
+            if ($firstIdBy) {
+                $where1[] = $firstIdBy;
             }
-            if ($lastTimeBy) {
-                $where1[] = $lastTimeBy;
+            if ($lastIdBy) {
+                $where1[] = $lastIdBy;
             }
             if ($keywordsBy) {
                 $where1[] = $keywordsBy;
@@ -747,7 +756,7 @@ class ApiForCommon
                     $result1[$i]['joinTime'] = urlencode($joinTime[$i]);
                     $result1[$i]['face'] = urlencode($path . $row['face']);
                     $sId = $row['id'];
-                    Situation::isOption($result1, $i, $sId);//引用去添加是否赞过等
+                    Situation::isOption($result1, $i, $sId); // 引用去添加是否赞过等
                     $j = 0;
                     $images = Album::getSituationImageBysId($sId);
                     if ($images === false) {
@@ -788,8 +797,8 @@ class ApiForCommon
         $arr['uId'] = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($arr['uId'] !== '') {
             $arr['sId'] = $_POST['sId'];
-            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
-            if($sid){
+            $sid = Situation::isTransmit($arr['sId']); // 是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if ($sid) {
                 $arr['sId'] = $sid;
             }
             $arr['time'] = time();
@@ -830,8 +839,8 @@ class ApiForCommon
         $arr['uId'] = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($arr['uId'] !== '') {
             $arr['sId'] = $_POST['sId'];
-            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
-            if($sid){
+            $sid = Situation::isTransmit($arr['sId']); // 是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if ($sid) {
                 $arr['sId'] = $sid;
             }
             $sql = "select id from hw_situation where id={$arr['sId']}"; // 要评论的活动是否存在
@@ -915,31 +924,31 @@ class ApiForCommon
                 $cIdBy = $cId ? "s.cId={$cId}" : '';
                 $sId = $_POST['sId'] ? $_POST['sId'] : '';
                 $sIdBy = $sId ? "s.sId={$sId}" : '';
-                $firstTime = $_POST['firstTime'] ? $_POST['firstTime'] : ''; // 获取更新的记录
-                $firstTimeBy = $firstTime ? "s.sPubtime>$firstTime" : '';
+                $firstId = $_POST['firstId'] ? $_POST['firstId'] : ''; // 获取更新的记录
+                $firstIdBy = $firstId ? "s.Id>$firstId" : '';
                 
-                $lastTime = $_POST['lastTime'] ? $_POST['lastTime'] : ''; // 获取历史的记录
-                $lastTimeBy = $lastTime ? "s.sPubtime<$lastTime" : '';
+                $lastId = $_POST['lastId'] ? $_POST['lastId'] : ''; // 获取历史的记录
+                $lastIdBy = $lastId ? "s.Id<$lastId" : '';
                 $order = $_POST['order'] ? $_POST['order'] : 'sPubtime';
-                if ($firstTimeBy) { // 获取最新消息则时间倒序分页传
+                if ($firstIdBy) { // 获取最新消息则时间倒序分页传
                     $type = $_POST['type'] ? $_POST['type'] : 'asc';
                 } else { // 加载历史记录则时间正序分页传
                     $type = $_POST['type'] ? $_POST['type'] : 'desc';
                 }
                 $type = $type ? $type : 'desc';
-                // $orderBy=$firstTime?"order by s.{$order} {$type}":"order by s.{$order} {$type}";
+                // $orderBy=$firstId?"order by s.{$order} {$type}":"order by s.{$order} {$type}";
                 $orderBy = "order by s.{$order} {$type}";
                 $keywords = $_POST['keywords'] ? $_POST['keywords'] : '';
                 $keywordsBy = $keywords ? "(s.`sTitle` like '%{$keywords}%' OR s.`sPosition` like '%{$keywords}%' OR u.`username` like '%{$keywords}%')" : null;
                 $where = '';
-                if ($firstTimeBy || $lastTimeBy || $keywordsBy || $sIdBy || $cIdBy || $arangBy) { // where不为空
+                if ($firstIdBy || $lastIdBy || $keywordsBy || $sIdBy || $cIdBy || $arangBy) { // where不为空
                     $where = "where ";
                 }
-                if ($firstTimeBy) {
-                    $where1[] = $firstTimeBy;
+                if ($firstIdBy) {
+                    $where1[] = $firstIdBy;
                 }
-                if ($lastTimeBy) {
-                    $where1[] = $lastTimeBy;
+                if ($lastIdBy) {
+                    $where1[] = $lastIdBy;
                 }
                 if ($keywordsBy) {
                     $where1[] = $keywordsBy;
@@ -982,7 +991,7 @@ class ApiForCommon
                         $result1[$i]['praiseTime'] = urlencode($praiseTime[$i]);
                         $result1[$i]['face'] = urlencode($path . $row['face']);
                         $sId = $row['id'];
-                        Situation::isOption($result1, $i, $sId);//引用去添加是否赞过等
+                        Situation::isOption($result1, $i, $sId); // 引用去添加是否赞过等
                         $j = 0;
                         $images = Album::getSituationImageBysId($sId);
                         if ($images === false) {
@@ -1028,8 +1037,8 @@ class ApiForCommon
         $arr['uId'] = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($arr['uId'] !== '') {
             $arr['sId'] = $_POST['sId'] ? $_POST['sId'] : '';
-            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
-            if($sid){
+            $sid = Situation::isTransmit($arr['sId']); // 是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if ($sid) {
                 $arr['sId'] = $sid;
             }
             $sql = "select id from hw_situation where id={$arr['sId']}"; // 要评论的活动是否存在
@@ -1070,8 +1079,8 @@ class ApiForCommon
         $arr['uId'] = $_SESSION['uId'] ? $_SESSION['uId'] : ''; // 如果用户已经登录，则从session中获取用户的id
         if ($arr['uId'] !== '') {
             $arr['sId'] = $_POST['sId'] ? $_POST['sId'] : '';
-            $sid = Situation::isTransmit($arr['sId']);//是否是转发的活动，是则把上传的活动id换成原来的活动的id
-            if($sid){
+            $sid = Situation::isTransmit($arr['sId']); // 是否是转发的活动，是则把上传的活动id换成原来的活动的id
+            if ($sid) {
                 $arr['sId'] = $sid;
             }
             $sql = "select id from hw_situation where id={$arr['sId']}"; // 要评论的活动是否存在
@@ -1151,31 +1160,31 @@ class ApiForCommon
             $cIdBy = $cId ? "s.cId={$cId}" : '';
             $sId = $_POST['sId'] ? $_POST['sId'] : '';
             $sIdBy = $sId ? "s.sId={$sId}" : '';
-            $firstTime = $_POST['firstTime'] ? $_POST['firstTime'] : ''; // 获取更新的记录
-            $firstTimeBy = $firstTime ? "s.sPubtime>$firstTime" : '';
+            $firstId = $_POST['firstId'] ? $_POST['firstId'] : ''; // 获取更新的记录
+            $firstIdBy = $firstId ? "s.Id>$firstId" : '';
             
-            $lastTime = $_POST['lastTime'] ? $_POST['lastTime'] : ''; // 获取历史的记录
-            $lastTimeBy = $lastTime ? "s.sPubtime<$lastTime" : '';
+            $lastId = $_POST['lastId'] ? $_POST['lastId'] : ''; // 获取历史的记录
+            $lastIdBy = $lastId ? "s.Id<$lastId" : '';
             $order = $_POST['order'] ? $_POST['order'] : 'sPubtime';
-            if ($firstTimeBy) { // 获取最新消息则时间倒序分页传
+            if ($firstIdBy) { // 获取最新消息则时间倒序分页传
                 $type = $_POST['type'] ? $_POST['type'] : 'asc';
             } else { // 加载历史记录则时间正序分页传
                 $type = $_POST['type'] ? $_POST['type'] : 'desc';
             }
             $type = $type ? $type : 'desc';
-            // $orderBy=$firstTime?"order by s.{$order} {$type}":"order by s.{$order} {$type}";
+            // $orderBy=$firstId?"order by s.{$order} {$type}":"order by s.{$order} {$type}";
             $orderBy = "order by s.{$order} {$type}";
             $keywords = $_POST['keywords'] ? $_POST['keywords'] : '';
             $keywordsBy = $keywords ? "(s.`sTitle` like '%{$keywords}%' OR s.`sPosition` like '%{$keywords}%' OR u.`username` like '%{$keywords}%')" : null;
             $where = '';
-            if ($firstTimeBy || $lastTimeBy || $keywordsBy || $sIdBy || $cIdBy || $arangBy) { // where不为空
+            if ($firstIdBy || $lastIdBy || $keywordsBy || $sIdBy || $cIdBy || $arangBy) { // where不为空
                 $where = "where ";
             }
-            if ($firstTimeBy) {
-                $where1[] = $firstTimeBy;
+            if ($firstIdBy) {
+                $where1[] = $firstIdBy;
             }
-            if ($lastTimeBy) {
-                $where1[] = $lastTimeBy;
+            if ($lastIdBy) {
+                $where1[] = $lastIdBy;
             }
             if ($keywordsBy) {
                 $where1[] = $keywordsBy;
@@ -1218,7 +1227,7 @@ class ApiForCommon
                     $result1[$i]['collectTime'] = urlencode($collectTime[$i]);
                     $result1[$i]['face'] = urlencode($path . $row['face']);
                     $sId = $row['id'];
-                    Situation::isOption($result1, $i, $sId);//引用去添加是否赞过等
+                    Situation::isOption($result1, $i, $sId); // 引用去添加是否赞过等
                     $j = 0;
                     $images = Album::getSituationImageBysId($sId);
                     if ($images === false) {
@@ -1486,6 +1495,10 @@ class ApiForCommon
     {
         global $result; // 更新userLog日志表要用
         $sId = $_POST['sId'] ? $_POST['sId'] : null;
+        $sid = Situation::isTransmit($sId); // 是否是转发的活动，是则把上传的活动id换成原来的活动的id
+        if ($sid) {
+            $sId = $sid;
+        }
         $rows = Album::getSituationImageBysId($sId);
         $site = OUR_SITE;
         $path = "{$site}/uploads/";
@@ -1774,7 +1787,7 @@ class ApiForCommon
      */
     public static function emailVerifyForReset()
     {
-        global $result; //  1更新userLog日志表要用
+        global $result; // 1更新userLog日志表要用
         $emailCode = stripslashes(trim($_GET['emailCode'])) ? stripslashes(trim($_GET['emailCode'])) : '';
         $email = $_SESSION['email'];
         $nowtime = time();

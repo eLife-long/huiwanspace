@@ -60,7 +60,11 @@ class Response {
 			'datas' => $result['datas']?$result['datas']:null
 		);
 		$result = json_encode($result);
-		return urldecode($result);
+		$result = urldecode($result);
+		$count = 0;
+		$result = str_replace("\n", "\\n", $result,$count);//转义
+		$result = str_replace("\r", "\\r", $result,$count);
+		return $result;
 	}
 
 	/**
